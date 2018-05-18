@@ -8,7 +8,7 @@ public class Tache {
 	public double [][]TW;
 	public int [] Piece = new int [ReadData.nbrPiece];
 	public int PTab;
-	public int prio;			//penalité
+	public int prio;			//penalité/ Gain
 	public int TpsRepa;
 	
 	//constructeur tache quelconque
@@ -35,7 +35,6 @@ public class Tache {
 			TW= debJour;
 			if (n>=0){
 				for(int i=0;i<ReadData.nbrPiece;i++) Piece[i]=0;
-	
 			}
 			else{
 				for(int i=0;i<ReadData.nbrPiece;i++) Piece[i]=20;

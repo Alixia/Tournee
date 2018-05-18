@@ -19,7 +19,7 @@ public class ReadData {
 		public static  double psi=5; // overTime // article 1 et 2 10 
 		public static  double phi=550;  // nombre tache 550
 		public static  double mu=5; // distance // article 1 et 2 5
-		public static int TpsReap=25;
+		public static int TpsReap=25;	//temps reaprovisionnement
 		public static 	double [][]  distance;
 		public static	double [][]  distanced;
 		public static	double [][]  Temps;
@@ -30,7 +30,7 @@ public class ReadData {
 		public static	int [] [] fenetre;
 		public 	static int [] dep;
 		public 	static int []  sigma;// temps de reparation
-		public static	int []  alpha;//penalité
+		public static	int []  alpha;//penalité / priorit�
 		public static	int []   pieceTab; // piece Tabelette
 	public ReadData( String data){
 		instance = "";

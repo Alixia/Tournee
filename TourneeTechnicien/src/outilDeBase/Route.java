@@ -32,11 +32,11 @@ public class Route {
 		passageDepot= -5;
 		// Creation des activité fictif qui represente les pauses
 		Tache Pau1Tache = new Tache (-1, 15);	
-		Activite Pause1 = new Activite (Pau1Tache, k.pause[0], 0, (double)k.pause[0][0], (double)k.pause[0][0], ((double)k.pause[0][0]+15),0);
+		Activite Pause1 = new Activite (Pau1Tache, Pau1Tache.TW[0], 0, (double)Pau1Tache.TW[0][0], (double)Pau1Tache.TW[0][0], ((double)Pau1Tache.TW[0][0]+15),0);
 		Tache Pau2Tache = new Tache (-2, 30);	
-		Activite Pause2 = new Activite (Pau2Tache, k.pause[1], 1, (double)k.pause[1][0], (double)k.pause[1][0], ((double)k.pause[1][0]+30),0);
+		Activite Pause2 = new Activite (Pau2Tache, Pau2Tache.TW[1], 1, (double)Pau2Tache.TW[1][0], (double)Pau2Tache.TW[1][0], ((double)Pau2Tache.TW[1][0]+30),0);
 		Tache Pau3Tache = new Tache (-3, 15);	
-		Activite Pause3 = new Activite (Pau3Tache, k.pause[2], 2, (double)k.pause[2][0], (double)k.pause[2][0], ((double)k.pause[2][0]+15),0);
+		Activite Pause3 = new Activite (Pau3Tache, Pau3Tache.TW[2], 2, (double)Pau3Tache.TW[2][0], (double)Pau3Tache.TW[2][0], ((double)Pau3Tache.TW[2][0]+15),0);
 		
 		//Creation d'une activite fictif qui represente la maison du techncian 
 		Tache HomePos = new Tache (k.position, 0);	
@@ -55,11 +55,11 @@ public class Route {
 		this.lesActivite.add(Pause2);
 		this.lesActivite.add(Pause3);
 		this.lesActivite.add(TechHomeE); // la position d arrivé
-		this.piece.add(k.Invent); // l'inventaire de debut car les activite sont fictifs
-		this.piece.add(k.Invent);
-		this.piece.add(k.Invent);
-		this.piece.add(k.Invent);
-		this.piece.add(k.Invent);
+		this.piece.add(k.invent); // l'inventaire de debut car les activite sont fictifs
+		this.piece.add(k.invent);
+		this.piece.add(k.invent);
+		this.piece.add(k.invent);
+		this.piece.add(k.invent);
 		
 		
 		

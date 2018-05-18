@@ -5,24 +5,29 @@ import java.util.Vector;
 public class Technicien {
 	
 	public int nom;
-	public int [] Invent; 
-	public double [][] pause = {{540,660},{720,900},{900,1020}};//9-10;12-15;15-17
+	public int [] invent; 
 	public int position;
+	public int depot;
+	public Vector <Tache> tachetech = new Vector<Tache>();
+
 	
-	public Technicien (int n, int [] inv, int pos){
-		nom = n;
-		Invent=inv;	
-		position = pos;
+	public Technicien(int nom, int[] invent, int position, int depot, Vector<Tache> tachetech) {
+		super();
+		this.nom = nom;
+		this.invent = invent;
+		this.position = position;
+		this.depot = depot;
+		this.tachetech = tachetech;
 	}
-	
+
 	public void tostring(){
 		System.out.println(" technicien "+nom+", position: "+position);
 	}
 	
 	public Technicien clone(){
-		Technicien retour = new Technicien(nom, Invent.clone(), position);
+		Technicien retour = new Technicien(nom, invent.clone(), position, depot, tachetech);
 		return retour;
 	}
 	
-	public boolean 
+	//public boolean 
 }

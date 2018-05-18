@@ -3,6 +3,7 @@ package outilGeneral;
 import java.util.Vector;
 
 import outilDeBase.Activite;
+import outilDeBase.Route;
 
 public class GestionTableau {
 	
@@ -26,6 +27,22 @@ public class GestionTableau {
 		Vector <int[]> retour = new Vector<>();
 		for(int i=0; i<liste.size(); i++){
 			retour.add(liste.get(i).clone());
+		}
+		return retour;
+	}
+	
+	public static Vector <Route> cloneRoutes(Vector <Route> liste){
+		Vector <Route> retour = new Vector<>();
+		for(int i=0; i<liste.size(); i++){
+			retour.add(liste.get(i).clone());
+		}
+		return retour;
+	}
+	
+	public static Vector <Integer> cloneIntegers(Vector <Integer> liste){
+		Vector <Integer> retour = new Vector<>();
+		for(int i=0; i<liste.size(); i++){
+			retour.add(liste.get(i));
 		}
 		return retour;
 	}
