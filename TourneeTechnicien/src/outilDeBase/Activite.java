@@ -43,8 +43,8 @@ public class Activite {
 		 return retour;
 	 }
 
-	public void ToString(){
-		 System.out.println("Task "+task.nom+" in its "+IndexTW+" TpsArr "+TpsArriv+" TpsDeb "+TpsDebServ+" TpsFin "+TpsFinServ+" dist: "+distance);
+	public String toString(){
+		 return "Task "+task.nom+" in its "+IndexTW+" TpsArr "+TpsArriv+" TpsDeb "+TpsDebServ+" TpsFin "+TpsFinServ+" dist: "+distance;
 	 }
 
 }

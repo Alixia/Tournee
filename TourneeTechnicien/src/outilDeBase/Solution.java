@@ -38,14 +38,15 @@ public class Solution {
 		
 	}
 	
-	public void ToString(){
+	public String toString(){
 		int i=0;
-		System.out.println(" Le coutSol: "+costsol);
+		String retour = " Le coutSol: "+costsol ;
 	
 		while (i<sol.size()){
-			sol.get(i).tostring();
+			retour += sol.get(i).toString();
 			i++;
 		}
+		return retour;
 	}
 	
 	public void Calcul_costsol(){

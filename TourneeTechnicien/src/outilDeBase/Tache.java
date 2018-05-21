@@ -44,9 +44,9 @@ public class Tache {
 		
 	}
 	
-	public void ToString (){
+	public String toString (){
 		String res = ("Task: "+this.nom+"\n"+"PTab: "+this.PTab+"\n"+"prio: "+this.prio+"\n"+"TpsReap: "+this.TpsRepa+"\n");
-		System.out.println(res); 
+		return res; 
 	}
 
 	public Tache clone(){
