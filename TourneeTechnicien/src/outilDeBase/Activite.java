@@ -46,5 +46,9 @@ public class Activite {
 	public String toString(){
 		 return "Task "+task.nom+" in its "+IndexTW+" TpsArr "+TpsArriv+" TpsDeb "+TpsDebServ+" TpsFin "+TpsFinServ+" dist: "+distance;
 	 }
+	
+	public boolean isPause(){
+		return task.isPause();
+	}
 
 }

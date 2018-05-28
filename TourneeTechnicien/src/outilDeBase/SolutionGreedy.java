@@ -3,19 +3,18 @@ package outilDeBase;
 import java.util.Vector;
 
 public class SolutionGreedy {
-
-	public static Solution solutionInitiale(){
+	
+	public static Solution solutionTache(Vector<Tache> taches){
 		Solution solution = new Solution();
-		int i=0;
-		while(i<InitialiserModel.tache.size()){
-			Tache tache = InitialiserModel.tache.get(i);
+		int i =0;
+		while(i<taches.size()){
+			Tache tache = taches.get(i);
 			Vector<Route> FeasRoute= new Vector<Route>();
 			for (int k=0; k<solution.sol.size();k++){
 				if(ReadData.competence[solution.sol.get(k).tech.nom][tache.nom]==1){
 					Route r= solution.sol.get(k);
-					for (int pos=1;pos<r.lesActivite.size()-1;pos++){
-						Route.add1(FeasRoute,GetPossibleInsertion(tache, r));
-					}
+					Vector <Route> routess = GetPossibleInsertion(tache, r);
+					Route.add1(FeasRoute,routess);
 				}
 			}
 			
@@ -25,19 +24,65 @@ public class SolutionGreedy {
 				if (solution.sol.get(z).tech.nom==FeasRoute.get(0).tech.nom){
 					trouv=true;
 					solution.sol.remove(z);
-					solution.sol.add(FeasRoute.get(0));
+					solution.sol.add(z,FeasRoute.get(0));
 				}
 				z++;
 			}
-			
 			i++;
 		}
 		
-		Vector<Solution> TTeLesSolutions = new Vector<>();
-		TTeLesSolutions.add(solution);
-		CalculerLesCouts(TTeLesSolutions);
+		//CalculerLesCouts(solution);
+		solution.Calcul_costsol();
 
-		return TTeLesSolutions.get(0);
+		return solution;
+	}
+
+	public static Solution solutionInitiale(){
+		Solution solution = new Solution();
+		int i=0;
+		while(i<InitialiserModel.tacheAFaire.size()){
+			Tache tache = InitialiserModel.tacheAFaire.get(i);
+			Vector<Route> FeasRoute= new Vector<Route>();
+			for (int k=0; k<solution.sol.size();k++){
+				if(ReadData.competence[solution.sol.get(k).tech.nom][tache.nom]==1){
+					Route r= solution.sol.get(k);
+					Vector <Route> routess = GetPossibleInsertion(tache, r);
+					Route.add1(FeasRoute,routess);
+				}
+			}
+			
+			boolean trouv=false;
+			int z=0;
+			if(!FeasRoute.isEmpty()){
+				InitialiserModel.tacheFaite.add(tache);
+				InitialiserModel.tacheAFaire.remove(i);
+				i--;
+			}
+			while(z<solution.sol.size() && !trouv && !FeasRoute.isEmpty()){
+				if (solution.sol.get(z).tech.nom==FeasRoute.get(0).tech.nom){
+					trouv=true;
+					solution.sol.remove(z);
+					solution.sol.add(z,FeasRoute.get(0));
+				}
+				z++;
+			}
+			i++;
+		}
+		
+		
+		CalculerLesCouts(solution);
+
+		return solution;
+	}
+	
+	public static void CalculerLesCouts(Solution solution){
+		for (int j=0; j<solution.sol.size();j++){
+			if (solution.sol.get(j).lesActivite.size()<6){
+				solution.sol.remove(j); // dans cette route le technicien ne fait aucune acctivité
+			}
+
+		}
+		solution.Calcul_costsol(); // On calcule les couts de chaque solution
 	}
 
 	public static void CalculerLesCouts(Vector<Solution> TTeLesSolutions){
@@ -75,8 +120,6 @@ public class SolutionGreedy {
 					j++;
 				}
 				Route.add(PossibleInsertion, NewR.get(index));
-
-
 			}
 
 

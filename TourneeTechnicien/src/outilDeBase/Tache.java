@@ -65,4 +65,11 @@ public class Tache {
 		Tache retour = new Tache(nom, copieTW, copiePiece, PTab, prio, TpsRepa);
 		return retour;
 	}
+	
+	public boolean isPause(){
+		if(nom<0 || nom>=ReadData.tache){
+			return true;
+		}
+		return false;
+	}
 }

@@ -4,8 +4,9 @@ import java.util.Vector;
 
 public class InitialiserModel {
 
-	public static Vector <Tache> tache = new Vector<Tache>();
+	public static Vector <Tache> tacheAFaire = new Vector<Tache>();
 	public static Vector <Technicien> tech = new Vector<Technicien>();
+	public static Vector <Tache> tacheFaite = new Vector<>();
 	
 	public static void initialiser(){
 		Intialisertache();
@@ -26,7 +27,7 @@ public class InitialiserModel {
 				p[z]=ReadData.piece[z][i];
 			}
 			//par ordre de priorite
-			add(tache, (new Tache (i,tw, p, ReadData.pieceTab[i],ReadData.alpha[i],ReadData.sigma[i])));
+			add(tacheAFaire, (new Tache (i,tw, p, ReadData.pieceTab[i],ReadData.alpha[i],ReadData.sigma[i])));
 		}
 		
 	}
@@ -52,13 +53,18 @@ public class InitialiserModel {
 	}
 
 	public static void afficher(){
-		System.out.println("******************");
-		for (Tache tache2 : tache) {
-			System.out.println(tache2.toString());
-		}
-		System.out.println("---------");
+		System.out.println("*****************");
+		System.out.println("********** TECHNICIEN **********");
 		for (Technicien tech2 : tech) {
 			System.out.println(tech2.toString());
+		}
+		System.out.println("********** TACHE A FAIRE ********");
+		for (Tache tache2 : tacheAFaire) {
+			System.out.println(tache2.toString());
+		}
+		System.out.println("********** TACHE FAITE ********");
+		for (Tache tache2 : tacheFaite) {
+			System.out.println(tache2.toString());
 		}
 		System.out.println("*****************");
 	}
