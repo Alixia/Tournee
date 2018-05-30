@@ -87,15 +87,12 @@ public class SolutionGreedy {
 
 	public static void CalculerLesCouts(Vector<Solution> TTeLesSolutions){
 		for (int i=0;i<TTeLesSolutions.size();i++){
-
 			for (int j=0; j<TTeLesSolutions.get(i).sol.size();j++){
 				if (TTeLesSolutions.get(i).sol.get(j).lesActivite.size()<6){
 					TTeLesSolutions.get(i).sol.remove(j); // dans cette route le technicien ne fait aucune acctivité
 				}
-
 			}
 			TTeLesSolutions.get(i).Calcul_costsol(); // On calcule les couts de chaque solution
-
 		}
 	}
 

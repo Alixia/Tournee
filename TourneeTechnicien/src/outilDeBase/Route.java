@@ -148,6 +148,23 @@ public class Route {
 			vr.add(i,r.get(0));
 		}
 	}
+	
+	public static void add2(Vector<Route> vr, Vector<Route> r){
+		if(!r.isEmpty()){
+			int i=0;
+			while(i<vr.size() && vr.get(i).cost < r.get(0).cost){
+				i++;
+			}
+			vr.add(i,r.get(0));
+		}
+		if(r.size()>=2){
+			int i=0;
+			while(i<vr.size() && vr.get(i).cost < r.get(1).cost){
+				i++;
+			}
+			vr.add(i,r.get(1));
+		}
+	}
 
 	public  static Vector <Route> Triroute (Vector <Route> ta) {
 
