@@ -38,8 +38,6 @@ public class ConstructionRegret implements AlgoReconstruction {
 				i++;
 			}
 			
-			boolean trouv=false;
-			int z=0;
 			if(!FeasRoute.isEmpty()){
 				InitialiserModel.tacheFaite.add(tacheMeilleur);
 				InitialiserModel.tacheAFaire.remove(indiceMeilleur);
@@ -47,6 +45,9 @@ public class ConstructionRegret implements AlgoReconstruction {
 				// on arrete si on ne trouve pas de solution a inserer
 				premierTour = false;
 			}
+			
+			boolean trouv=false;
+			int z=0;
 			while(z<soluc.sol.size() && !trouv && !FeasRoute.isEmpty()){
 				if (soluc.sol.get(z).tech.nom==FeasRoute.get(0).feasRoute.tech.nom){
 					trouv=true;

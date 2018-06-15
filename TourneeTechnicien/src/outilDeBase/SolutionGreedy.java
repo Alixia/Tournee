@@ -36,6 +36,52 @@ public class SolutionGreedy {
 
 		return solution;
 	}
+	
+	//cree une solution avec lordre des tache et selon chacun technicien, parametre : tableau [nbtech][nb tache selon tech]
+	public static Solution solutionSelonOrdre(Vector<Vector<Tache>> vecteurTache) {
+		Solution solution = new Solution();
+		int indiceTech =0;
+		//parcours sur les tech
+		while(indiceTech<vecteurTache.size()){
+			//parcours sur les taches selon tech
+			int indiceTache = 0;
+			while(!vecteurTache.get(indiceTech).isEmpty()) {
+				Route r= solution.sol.get(indiceTech);
+				Tache tache = vecteurTache.get(indiceTech).get(0);
+				int placeActivite = 2;
+				if(!r.lesActivite.get(r.lesActivite.size()-2).isPause() ) {
+					placeActivite = 2;
+				}else if(!r.lesActivite.get(r.lesActivite.size()-3).isPause()) {
+					placeActivite = 3;
+				}else{
+					placeActivite = 4;
+				}
+				Vector<Route> NewR = evaluerInsertion (r, tache, r.lesActivite.size()-placeActivite);
+				if(NewR.isEmpty()){
+					NewR = evaluerInsertion (r, tache, r.lesActivite.size()-placeActivite+1);
+				}
+				double min = NewR.get(0).cost;
+				int index = 0;
+				int j=1;
+				while( j<NewR.size()){
+					if (NewR.get(j).cost<min){
+						min = NewR.get(j).cost;
+						index=j;
+					}
+					j++;
+				}
+				Route insertion = NewR.get(index);
+				solution.sol.remove(indiceTech);
+				solution.sol.add(indiceTech,insertion);
+				indiceTech++;
+			}
+		}
+		
+		//CalculerLesCouts(solution);
+		solution.Calcul_costsol();
+
+		return solution;
+	}
 
 	public static Solution solutionInitiale(){
 		Solution solution = new Solution();

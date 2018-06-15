@@ -22,14 +22,17 @@ public class DestructionRandom implements AlgoDestruction{
 	}
 
 	public Solution detruit(Solution s) {
-		Random r = new Random();
-		PriorityQueue<Integer> randomList = new PriorityQueue<>();
-		for(int i=0 ; i<nbDestruction ; i++){
-			randomList.add(r.nextInt(ReadData.tache));
-		}
 		
+		//generation de nbDestruction taches differentes
+		int[] ints = new Random().ints(0, InitialiserModel.tacheFaite.size()).distinct().limit(nbDestruction).toArray();
+		PriorityQueue<Integer> randomList = new PriorityQueue<>();
+		for (int i : ints) {
+			randomList.add(i);
+		}	
+		
+		//suppression des taches
 		int i = 0;
-		while (!randomList.isEmpty()) {
+		while (!randomList.isEmpty() && !InitialiserModel.tacheFaite.isEmpty()) {
 			int j = randomList.poll();
 			while(i!=j){
 				i++;
