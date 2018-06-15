@@ -14,12 +14,12 @@ public class ConstructionRegret implements AlgoReconstruction {
 	@Override
 	public Solution reconstruit(Solution soluc) {
 		boolean premierTour = true;
-		Vector<coupleTmp> FeasRoute= new Vector<>();
-		while(!FeasRoute.isEmpty() && !premierTour){
+		while(!InitialiserModel.tacheAFaire.isEmpty() && premierTour){
+			Vector<coupleTmp> FeasRoute= new Vector<>();
 			int i=0;
 			Tache tacheMeilleur = null;
 			int indiceMeilleur = 0;
-			premierTour = false;
+			// on cherche lecart de regret le plus important
 			while(i<InitialiserModel.tacheAFaire.size()){
 				Tache tache = InitialiserModel.tacheAFaire.get(i);
 				Vector<Route> FeasRouteTmp= new Vector<Route>();
@@ -43,6 +43,9 @@ public class ConstructionRegret implements AlgoReconstruction {
 			if(!FeasRoute.isEmpty()){
 				InitialiserModel.tacheFaite.add(tacheMeilleur);
 				InitialiserModel.tacheAFaire.remove(indiceMeilleur);
+			}else {
+				// on arrete si on ne trouve pas de solution a inserer
+				premierTour = false;
 			}
 			while(z<soluc.sol.size() && !trouv && !FeasRoute.isEmpty()){
 				if (soluc.sol.get(z).tech.nom==FeasRoute.get(0).feasRoute.tech.nom){

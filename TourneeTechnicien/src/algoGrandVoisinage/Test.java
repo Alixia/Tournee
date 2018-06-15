@@ -20,7 +20,7 @@ public class Test {
 		System.out.println(s.toString());
 		InitialiserModel.afficher();
 		AlgoDestruction dr = new DestructionRandom(4);
-		AlgoReconstruction rg = new ConstructionGreedy();
+		AlgoReconstruction rg = new ConstructionRegret();
 		Solution soluc = dr.detruit(s);
 		System.out.println("*******************");
 		System.out.println(soluc.toString());
