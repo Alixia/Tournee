@@ -12,7 +12,7 @@ public class Route {
 	public int gain;
 	public int passageDepot;
 	public int code_sol;		//peut etre inutile
-	Vector<int[]> piece = new Vector<>();
+	public Vector<int[]> piece = new Vector<>();
 
 
 	public Route(Technicien tech, Vector<Activite> lesActivite, Vector<int[]> piece, Double cost, int gain,

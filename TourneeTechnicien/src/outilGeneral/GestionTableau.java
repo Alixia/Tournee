@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import outilDeBase.Activite;
 import outilDeBase.Route;
+import outilDeBase.Tache;
 
 public class GestionTableau {
 	
@@ -45,6 +46,18 @@ public class GestionTableau {
 			retour.add(liste.get(i));
 		}
 		return retour;
+	}
+	
+	public static Vector<Tache> removeNom(Vector <Tache> liste, int nom){
+		int i=0;
+		while(i < liste.size() && nom != liste.get(i).nom) {
+			i++;
+		}
+		if(i < liste.size()) {
+			liste.remove(i);
+		}
+		return liste;
+		
 	}
 
 }
