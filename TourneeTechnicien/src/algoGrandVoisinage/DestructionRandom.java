@@ -16,16 +16,18 @@ import outilGeneral.GestionTableau;
 public class DestructionRandom implements AlgoDestruction{
 	
 	int nbDestruction;
-	int nbTache;
-	int nbTech;
-	int nbTacheAvecSuppression;
-	boolean depot;
+	static int nbTache;
+	static int nbTech;
+	static int nbTacheAvecSuppression;
+	static boolean depot;
 	
 	public DestructionRandom(int nb) {
 		this.nbDestruction = nb;
 	}
 
-	public Solution detruit(Solution s) {
+	public Solution detruit(Solution donnee) {
+		
+		Solution s = donnee.clone();
 		
 		if(nbDestruction>=InitialiserModel.tacheFaite.size()) {
 			return new Solution();
@@ -35,11 +37,15 @@ public class DestructionRandom implements AlgoDestruction{
 		PriorityQueue<Integer> randomList = new PriorityQueue<>();
 		for (int i : ints) {
 			randomList.add(i);
-		}	
+		}
 		
+		s = suppressionTache(s, randomList, InitialiserModel.tacheFaite.size());
+		return s;
+	}
+	
+	static Solution suppressionTache(Solution s, PriorityQueue<Integer> randomList, int fin) {
 		//suppression des taches
 		int i = 0;
-		int fin = InitialiserModel.tacheFaite.size();
 		nbTache = 0;
 		nbTacheAvecSuppression = 0;
 		nbTech = 0;
@@ -96,23 +102,15 @@ public class DestructionRandom implements AlgoDestruction{
 			}
 			parcoursPause(s);
 		}
-		while(i<fin && nbTech < ReadData.tech) {
-			while(s.sol.get(nbTech).lesActivite.get(nbTache).isPause()) {
-				nbTache++;
-				nbTacheAvecSuppression++;
-				if(nbTache >= s.sol.get(nbTech).lesActivite.size()-1) {
-					nbTache = 0;
-					nbTech ++;
-					nbTacheAvecSuppression++;
-				}
-			}
+		while(i<fin && nbTech < s.sol.size() && nbTache < s.sol.get(nbTech).lesActivite.size()) {
+			parcoursPause(s);
+			System.out.println(nbTech + "   " + nbTache + "   " + i + "   " + fin);
 			Tache tache = s.sol.get(nbTech).lesActivite.get(nbTache).task;
 			boolean ok = construire(solution, nbTech, nbTacheAvecSuppression, tache);
 			if(!ok) {
 				nbTacheAvecSuppression--;
 			}
 			if(solution.sol.get(nbTech).passageDepot>0 && !depot) {
-				nbTache++;
 				nbTacheAvecSuppression++;
 				depot = true;
 			}
@@ -127,12 +125,12 @@ public class DestructionRandom implements AlgoDestruction{
 			i++;
 		}
 		
-		
 		return solution;
-		
 	}
 	
-	private boolean construire(Solution solution, int nbTech, int nbTache, Tache tache) {
+	
+	
+	private static boolean construire(Solution solution, int nbTech, int nbTache, Tache tache) {
 		Route r = solution.sol.get(nbTech);
 		Vector<Route> NewR = SolutionGreedy.evaluerInsertion (r, tache, nbTache-1);
 		if(NewR.isEmpty()) {
@@ -155,7 +153,7 @@ public class DestructionRandom implements AlgoDestruction{
 		return true;
 	}
 	
-	private void parcoursPause(Solution s) {
+	private static void parcoursPause(Solution s) {
 		while(nbTech < ReadData.tech && nbTache < s.sol.get(nbTech).lesActivite.size()-1 && s.sol.get(nbTech).lesActivite.get(nbTache).isPause()) {
 			if(!(s.sol.get(nbTech).lesActivite.get(nbTache).task.nom==-1000)) {
 				nbTache++;
@@ -166,7 +164,7 @@ public class DestructionRandom implements AlgoDestruction{
 					nbTech ++;
 					depot = false;
 				}
-			}else {
+			}else{
 				nbTache++;
 			}
 		}

@@ -30,7 +30,7 @@ public class Solution {
 
 
 
-	public Solution Clone(){
+	public Solution clone(){
 		Vector <Route> vec = GestionTableau.cloneRoutes(sol);
 		Vector <Integer> t= GestionTableau.cloneIntegers(tacheFaite);
 		Solution s = new Solution(vec, costsol, t, code_sol);

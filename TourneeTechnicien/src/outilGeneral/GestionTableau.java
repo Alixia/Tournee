@@ -11,7 +11,9 @@ public class GestionTableau {
 	public static double[][] clone(double[][] obj){
 		double[][] copie = new double[obj.length][obj[0].length];
 		for (int i = 0; i < obj.length; i++){
-			copie[i] = obj[i].clone();
+			for (int j = 0 ; j<obj[0].length ; j++) {
+				copie[i][j] = obj[i][j];
+			}
 		}
 		return copie;
 	}
@@ -48,6 +50,14 @@ public class GestionTableau {
 		return retour;
 	}
 	
+	public static Vector <Tache> cloneTache(Vector <Tache> liste){
+		Vector <Tache> retour = new Vector<>();
+		for(int i=0; i<liste.size(); i++){
+			retour.add(liste.get(i).clone());
+		}
+		return retour;
+	}
+	
 	public static Vector<Tache> removeNom(Vector <Tache> liste, int nom){
 		int i=0;
 		while(i < liste.size() && nom != liste.get(i).nom) {
@@ -58,6 +68,14 @@ public class GestionTableau {
 		}
 		return liste;
 		
+	}
+
+	public static int[] cloneTableau(int[] piece) {
+		int[] copie = new int[piece.length];
+		for (int i = 0; i < piece.length; i++){
+			copie[i] = piece[i];
+		}
+		return copie;
 	}
 
 }

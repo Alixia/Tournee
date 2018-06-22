@@ -19,18 +19,19 @@ public class Test {
 		Solution s = SolutionGreedy.solutionInitiale();
 		System.out.println(s.toString());
 		InitialiserModel.afficher();
-		AlgoDestruction dr = new DestructionRandom(4);
+		//AlgoDestruction dr = new DestructionRandom(4);
+		AlgoDestruction dr = new DestructionPireRegret(4, 0);
 		AlgoReconstruction rg = new ConstructionRegret();
 		Solution soluc = dr.detruit(s);
 		System.out.println("*******************");
 		System.out.println(soluc.toString());
 		InitialiserModel.afficher();
 		System.out.println("*******************");
-		Solution soluc2 = rg.reconstruit(soluc);
-		System.out.println(soluc2.toString());
-		System.out.println("*******************");
-		System.out.println("*******************");
-		InitialiserModel.afficher();
+//		Solution soluc2 = rg.reconstruit(soluc);
+//		System.out.println(soluc2.toString());
+//		System.out.println("*******************");
+//		System.out.println("*******************");
+//		InitialiserModel.afficher();
 	}
 	
 }

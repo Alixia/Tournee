@@ -8,7 +8,7 @@ public class Tache {
 	public double [][]TW;
 	public int [] Piece = new int [ReadData.nbrPiece];
 	public int PTab;
-	public int prio;			//penalité/ Gain
+	public int prio;			//penalitï¿½/ Gain
 	public int TpsRepa;
 	
 	//constructeur tache quelconque
@@ -60,7 +60,7 @@ public class Tache {
 		if(Piece == null){
 			copiePiece = null;
 		}else{
-			copiePiece = Piece.clone();
+			copiePiece = GestionTableau.cloneTableau(Piece);
 		}
 		Tache retour = new Tache(nom, copieTW, copiePiece, PTab, prio, TpsRepa);
 		return retour;
