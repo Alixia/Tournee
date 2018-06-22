@@ -24,13 +24,13 @@ public class Test {
 		Solution soluc = dr.detruit(s);
 		System.out.println("*******************");
 		System.out.println(soluc.toString());
-//		InitialiserModel.afficher();
-//		System.out.println("*******************");
-//		Solution soluc2 = rg.reconstruit(soluc);
-//		System.out.println(soluc2.toString());
-//		System.out.println("*******************");
-//		System.out.println("*******************");
-//		InitialiserModel.afficher();
+		InitialiserModel.afficher();
+		System.out.println("*******************");
+		Solution soluc2 = rg.reconstruit(soluc);
+		System.out.println(soluc2.toString());
+		System.out.println("*******************");
+		System.out.println("*******************");
+		InitialiserModel.afficher();
 	}
 	
 }

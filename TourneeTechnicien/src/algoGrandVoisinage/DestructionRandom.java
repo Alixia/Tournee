@@ -31,41 +31,39 @@ public class DestructionRandom implements AlgoDestruction{
 			return new Solution();
 		}
 		//generation de nbDestruction taches differentes
-//		int[] ints = new Random().ints(0, InitialiserModel.tacheFaite.size()).distinct().limit(nbDestruction).toArray();
-//		PriorityQueue<Integer> randomList = new PriorityQueue<>();
-//		for (int i : ints) {
-//			randomList.add(i);
-//			System.out.println(i);
-//		}	
-		
+		int[] ints = new Random().ints(0, InitialiserModel.tacheFaite.size()).distinct().limit(nbDestruction).toArray();
 		PriorityQueue<Integer> randomList = new PriorityQueue<>();
-		randomList.add(1);
-		randomList.add(2);
-		randomList.add(3);
-		randomList.add(7);
+		for (int i : ints) {
+			randomList.add(i);
+		}	
 		
 		//suppression des taches
 		int i = 0;
 		int fin = InitialiserModel.tacheFaite.size();
-		System.out.println("!!!! "+fin);
 		nbTache = 0;
 		nbTacheAvecSuppression = 0;
 		nbTech = 0;
 		depot = false;
 		Solution solution = new Solution();
 		boolean enAttente = true;
+		boolean finNb  = false;
 		while (!randomList.isEmpty() && !InitialiserModel.tacheFaite.isEmpty() && nbTech < ReadData.tech) {
 			int k = randomList.poll();
-			while(i!=k || enAttente){
+			while((i!=k || enAttente) && !finNb){
 				//parcours des pauses
 				parcoursPause(s);
 				if(!enAttente) {
 					//construction de la solution
-					System.out.println(s.sol.get(nbTech).lesActivite.get(nbTache).task.nom);
 					Tache tache = s.sol.get(nbTech).lesActivite.get(nbTache).task;
-					System.out.println("nbTech  : " + nbTech + "   nbTache : " +  nbTache + "   nbTacheAvecSuppression : " + nbTacheAvecSuppression + "   tache : " + tache.nom + "   i : " + i + "   k : " + k);
-					solution = construire(solution, nbTech, nbTacheAvecSuppression, tache);
-					System.out.print("\n*******\n" + solution.toString() + "\n*******\n");
+					boolean ok = construire(solution, nbTech, nbTacheAvecSuppression, tache);
+					if(!ok) {
+						nbTacheAvecSuppression--;
+						if(!randomList.isEmpty()) {
+							k = randomList.poll();
+						}else {
+							finNb = true;
+						}
+					}
 					if(solution.sol.get(nbTech).passageDepot>0 && !depot) {
 						nbTacheAvecSuppression++;
 						depot = true;
@@ -82,23 +80,22 @@ public class DestructionRandom implements AlgoDestruction{
 				}
 				enAttente = false;
 			}
-			parcoursPause(s);
-			Tache tmp = s.sol.get(nbTech).lesActivite.get(nbTache).task;
-			System.out.println("enlever !!!! nbTech  : " + nbTech + "   nbTache : " +  nbTache + "   nbTacheAvecSuppression : " + nbTacheAvecSuppression + "   tache : " + tmp.nom + "   i : " + i + "   k : " + k);
-			System.out.print("\n*******\n" + solution.toString() + "\n*******\n");
-			InitialiserModel.add(InitialiserModel.tacheAFaire, tmp);
-			GestionTableau.removeNom(InitialiserModel.tacheFaite, tmp.nom);
-			nbTache++;
-			if(nbTache >= s.sol.get(nbTech).lesActivite.size()-1) {
-				nbTache = 0;
-				nbTacheAvecSuppression = 0;
-				nbTech ++;
-				depot = false;
+			if(!finNb) {
+				parcoursPause(s);
+				Tache tmp = s.sol.get(nbTech).lesActivite.get(nbTache).task;
+				InitialiserModel.add(InitialiserModel.tacheAFaire, tmp);
+				GestionTableau.removeNom(InitialiserModel.tacheFaite, tmp.nom);
+				nbTache++;
+				if(nbTache >= s.sol.get(nbTech).lesActivite.size()-1) {
+					nbTache = 0;
+					nbTacheAvecSuppression = 0;
+					nbTech ++;
+					depot = false;
+				}
+				i++;
 			}
-			i++;
 			parcoursPause(s);
 		}
-		System.out.println(i + "  !!!! "+fin);
 		while(i<fin && nbTech < ReadData.tech) {
 			while(s.sol.get(nbTech).lesActivite.get(nbTache).isPause()) {
 				nbTache++;
@@ -110,8 +107,11 @@ public class DestructionRandom implements AlgoDestruction{
 				}
 			}
 			Tache tache = s.sol.get(nbTech).lesActivite.get(nbTache).task;
-			solution = construire(solution, nbTech, nbTacheAvecSuppression, tache);
-			if(solution.sol.get(nbTech).passageDepot<0 && !depot) {
+			boolean ok = construire(solution, nbTech, nbTacheAvecSuppression, tache);
+			if(!ok) {
+				nbTacheAvecSuppression--;
+			}
+			if(solution.sol.get(nbTech).passageDepot>0 && !depot) {
 				nbTache++;
 				nbTacheAvecSuppression++;
 				depot = true;
@@ -132,9 +132,12 @@ public class DestructionRandom implements AlgoDestruction{
 		
 	}
 	
-	private Solution construire(Solution solution, int nbTech, int nbTache, Tache tache) {
+	private boolean construire(Solution solution, int nbTech, int nbTache, Tache tache) {
 		Route r = solution.sol.get(nbTech);
 		Vector<Route> NewR = SolutionGreedy.evaluerInsertion (r, tache, nbTache-1);
+		if(NewR.isEmpty()) {
+			return false;
+		}
 		double min = NewR.get(0).cost;
 		int index = 0;
 		int j=1;
@@ -148,14 +151,13 @@ public class DestructionRandom implements AlgoDestruction{
 		Route insertion = NewR.get(index);
 		solution.sol.remove(nbTech);
 		solution.sol.add(nbTech,insertion);
-		
-		return solution;
+
+		return true;
 	}
 	
 	private void parcoursPause(Solution s) {
 		while(nbTech < ReadData.tech && nbTache < s.sol.get(nbTech).lesActivite.size()-1 && s.sol.get(nbTech).lesActivite.get(nbTache).isPause()) {
 			if(!(s.sol.get(nbTech).lesActivite.get(nbTache).task.nom==-1000)) {
-				System.out.println(s.sol.get(nbTech).lesActivite.get(nbTache).task.nom);
 				nbTache++;
 				nbTacheAvecSuppression++;
 				if(nbTache >= s.sol.get(nbTech).lesActivite.size()-1) {
