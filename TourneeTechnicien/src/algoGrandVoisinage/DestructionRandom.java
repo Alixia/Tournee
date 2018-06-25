@@ -64,6 +64,8 @@ public class DestructionRandom implements AlgoDestruction{
 					boolean ok = construire(solution, nbTech, nbTacheAvecSuppression, tache);
 					if(!ok) {
 						nbTacheAvecSuppression--;
+						InitialiserModel.add(InitialiserModel.tacheAFaire, tache);
+						GestionTableau.removeNom(InitialiserModel.tacheFaite, tache.nom);
 						if(!randomList.isEmpty()) {
 							k = randomList.poll();
 						}else {
@@ -109,6 +111,8 @@ public class DestructionRandom implements AlgoDestruction{
 			boolean ok = construire(solution, nbTech, nbTacheAvecSuppression, tache);
 			if(!ok) {
 				nbTacheAvecSuppression--;
+				InitialiserModel.add(InitialiserModel.tacheAFaire, tache);
+				GestionTableau.removeNom(InitialiserModel.tacheFaite, tache.nom);
 			}
 			if(solution.sol.get(nbTech).passageDepot>0 && !depot) {
 				nbTacheAvecSuppression++;

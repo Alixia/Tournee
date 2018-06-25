@@ -37,7 +37,16 @@ public class DestructionPireRegret implements AlgoDestruction{
 			}
 			retour = solutions.get(position).s;
 			InitialiserModel.tacheAFaire = solutions.get(position).tacheAFaire;
+			for (Tache tache : InitialiserModel.tacheFaite) {
+				System.out.println(tache.toString());
+			}
+			System.out.println("************");
+			System.out.println("************");
+			System.out.println("************");
 			InitialiserModel.tacheFaite = solutions.get(position).tacheFaite;
+			for (Tache tache : InitialiserModel.tacheFaite) {
+				System.out.println(tache.toString());
+			}
 			nbDestruction --;
 		}
 
