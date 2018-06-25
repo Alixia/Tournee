@@ -15,6 +15,7 @@ public class Test {
 		
 		InitialiserModel.initialiser();
 		InitialiserModel.afficher();
+		Similarite.intialiser(1, 1, 1, 1);
 		
 		Solution s = SolutionGreedy.solutionInitiale();
 		System.out.println(s.toString());
