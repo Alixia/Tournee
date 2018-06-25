@@ -25,28 +25,15 @@ public class DestructionPireRegret implements AlgoDestruction{
 		
 		Solution retour = soluc.clone();
 
-		while(nbDestruction >0) {
+		while(nbDestruction >0 && InitialiserModel.tacheFaite.size() >0) {
 			ArrayList<Couple> solutions = triSolution(retour);
 			Random r = new Random();
 			double y = r.nextDouble();
 			int position =0;
-			if(probaRandom == 0) {
-				position = 0;
-			}else {
-				position = (int)(Math.pow(y, probaRandom)*solutions.size());
-			}
+			position = (int)(Math.pow(y, probaRandom)*(solutions.size()-1));
 			retour = solutions.get(position).s;
 			InitialiserModel.tacheAFaire = solutions.get(position).tacheAFaire;
-			for (Tache tache : InitialiserModel.tacheFaite) {
-				System.out.println(tache.toString());
-			}
-			System.out.println("************");
-			System.out.println("************");
-			System.out.println("************");
 			InitialiserModel.tacheFaite = solutions.get(position).tacheFaite;
-			for (Tache tache : InitialiserModel.tacheFaite) {
-				System.out.println(tache.toString());
-			}
 			nbDestruction --;
 		}
 
@@ -65,9 +52,8 @@ public class DestructionPireRegret implements AlgoDestruction{
 			Solution s = soluc.clone();
 			InitialiserModel.tacheAFaire = GestionTableau.cloneTache(tacheAFaire);
 			InitialiserModel.tacheFaite = GestionTableau.cloneTache(tacheFaite);
-			PriorityQueue<Integer> liste = new PriorityQueue<>();
+			Vector<Integer> liste = new Vector<>();
 			liste.add(i);
-			System.out.println(s.toString());
 			Solution ret = DestructionRandom.suppressionTache(s, liste, tacheFaite.size());
 			ret.Calcul_costsol();
 			Couple c = new Couple(ret, GestionTableau.cloneTache(InitialiserModel.tacheAFaire), GestionTableau.cloneTache(InitialiserModel.tacheFaite));

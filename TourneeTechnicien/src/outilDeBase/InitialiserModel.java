@@ -7,13 +7,15 @@ public class InitialiserModel {
 	public static Vector <Tache> tacheAFaire = new Vector<Tache>();
 	public static Vector <Technicien> tech = new Vector<Technicien>();
 	public static Vector <Tache> tacheFaite = new Vector<>();
+	public static Vector <Vector<Integer>> K = new Vector<>();;
 	
 	public static void initialiser(){
 		Intialisertache();
 		InitialiserTechnician();
+		initialiserSimilarite();
 	}
 	
-	public static void Intialisertache (){
+	private static void Intialisertache (){
 		// On remplie tableau des taches
 		Vector<Tache> vecT= new Vector<Tache>();
 		for(int i=0; i<ReadData.tache;i++){
@@ -31,7 +33,7 @@ public class InitialiserModel {
 		}
 		
 	}
-	public static void InitialiserTechnician(){
+	private static void InitialiserTechnician(){
 		// On remplie tableau des techniciens 
 		for (int k=0;k<ReadData.tech; k++){
 			int [] inv = new int [ReadData.nbrPiece];
@@ -53,10 +55,17 @@ public class InitialiserModel {
 	}
 
 	public static void afficher(){
-		System.out.println("*****************");
+		System.out.println("******************************");
 		System.out.println("********** TECHNICIEN **********");
 		for (Technicien tech2 : tech) {
 			System.out.println(tech2.toString());
+		}
+		System.out.println("********** COMPETENCE **********");
+		int i = 0;
+		for (Vector<Integer> k : K) {
+			System.out.print("tache "+ i + " " + k);
+			System.out.println();
+			i++;
 		}
 		System.out.println("********** TACHE A FAIRE ********");
 		for (Tache tache2 : tacheAFaire) {
@@ -66,7 +75,23 @@ public class InitialiserModel {
 		for (Tache tache2 : tacheFaite) {
 			System.out.println(tache2.toString());
 		}
-		System.out.println("*****************");
+		System.out.println("******************************");
 	}
 	
+	private static void initialiserSimilarite() {
+		//on rempli le tableau K (pour le calcul de la similarité)
+		int[] nbTechParTach = new int[ReadData.tache];
+		for(int i=0; i<ReadData.tache; i++){
+			K.add(new Vector<>());
+		}
+		for (int i = 0; i < ReadData.competence.length; i++) {
+			for (int j = 0; j < ReadData.competence[0].length; j++) {
+				if(ReadData.competence[i][j] == 1) {
+					K.get(j).add(i);
+				}
+			}
+		}
+		
+	}
+		
 }

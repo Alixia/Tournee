@@ -3,6 +3,8 @@ package outilDeBase;
 import java.util.Arrays;
 import java.util.Vector;
 
+import outilGeneral.GestionTableau;
+
 public class Technicien {
 	
 	public int nom;
@@ -23,9 +25,8 @@ public class Technicien {
 	}
 	
 	public Technicien clone(){
-		Technicien retour = new Technicien(nom, invent.clone(), position, depot);
+		Technicien retour = new Technicien(nom, GestionTableau.cloneTableau(invent), position, depot);
 		return retour;
 	}
 	
-	//public boolean 
 }

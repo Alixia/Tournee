@@ -34,16 +34,21 @@ public class DestructionRandom implements AlgoDestruction{
 		}
 		//generation de nbDestruction taches differentes
 		int[] ints = new Random().ints(0, InitialiserModel.tacheFaite.size()).distinct().limit(nbDestruction).toArray();
-		PriorityQueue<Integer> randomList = new PriorityQueue<>();
+		Vector<Integer> randomList = new Vector<>();
 		for (int i : ints) {
-			randomList.add(i);
+			int j = 0;
+			while(i>j && j<randomList.size()) {
+				j++;
+			}
+			randomList.add(j, i);
 		}
+		
 		
 		s = suppressionTache(s, randomList, InitialiserModel.tacheFaite.size());
 		return s;
 	}
 	
-	static Solution suppressionTache(Solution s, PriorityQueue<Integer> randomList, int fin) {
+	static Solution suppressionTache(Solution s, Vector<Integer> randomList, int fin) {
 		//suppression des taches
 		int i = 0;
 		nbTache = 0;
@@ -54,7 +59,8 @@ public class DestructionRandom implements AlgoDestruction{
 		boolean enAttente = true;
 		boolean finNb  = false;
 		while (!randomList.isEmpty() && !InitialiserModel.tacheFaite.isEmpty() && nbTech < ReadData.tech) {
-			int k = randomList.poll();
+			int k = randomList.get(0);
+			randomList.remove(0);
 			while((i!=k || enAttente) && !finNb){
 				//parcours des pauses
 				parcoursPause(s);
@@ -67,7 +73,8 @@ public class DestructionRandom implements AlgoDestruction{
 						InitialiserModel.add(InitialiserModel.tacheAFaire, tache);
 						GestionTableau.removeNom(InitialiserModel.tacheFaite, tache.nom);
 						if(!randomList.isEmpty()) {
-							k = randomList.poll();
+							k = randomList.get(0);
+							randomList.remove(0);
 						}else {
 							finNb = true;
 						}
@@ -106,7 +113,6 @@ public class DestructionRandom implements AlgoDestruction{
 		}
 		while(i<fin && nbTech < s.sol.size() && nbTache < s.sol.get(nbTech).lesActivite.size()) {
 			parcoursPause(s);
-			System.out.println(nbTech + "   " + nbTache + "   " + i + "   " + fin);
 			Tache tache = s.sol.get(nbTech).lesActivite.get(nbTache).task;
 			boolean ok = construire(solution, nbTech, nbTacheAvecSuppression, tache);
 			if(!ok) {
