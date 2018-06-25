@@ -4,7 +4,6 @@ import java.util.Random;
 import java.util.Vector;
 
 import outilDeBase.InitialiserModel;
-import outilDeBase.ReadData;
 import outilDeBase.Solution;
 import outilDeBase.Tache;
 
@@ -50,7 +49,6 @@ public class DestructionShaw implements AlgoDestruction{
 	}
 
 	private Vector<Integer> tacheSelonPosition(Solution retour, Vector<Tache> taches) {
-		// TODO Auto-generated method stub
 		int i = 0;
 		int nbTache = 0;
 		int nbTech = 0;
