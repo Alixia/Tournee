@@ -56,6 +56,9 @@ public class DestructionRandom implements AlgoDestruction{
 		nbTech = 0;
 		depot = false;
 		Solution solution = new Solution();
+		if(randomList.isEmpty()) {
+			return s.clone();
+		}
 		boolean enAttente = true;
 		boolean finNb  = false;
 		while (!randomList.isEmpty() && !InitialiserModel.tacheFaite.isEmpty() && nbTech < ReadData.tech) {

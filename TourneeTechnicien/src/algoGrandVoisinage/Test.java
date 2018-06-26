@@ -21,7 +21,8 @@ public class Test {
 		System.out.println(s.toString());
 		InitialiserModel.afficher();
 		//AlgoDestruction dr = new DestructionRandom(4);
-		AlgoDestruction dr = new DestructionPireRegret(4, 0);
+		//AlgoDestruction dr = new DestructionPireRegret(4, 0);
+		AlgoDestruction dr = new DestructionShaw(4, 1);
 		AlgoReconstruction rg = new ConstructionRegret();
 		Solution soluc = dr.detruit(s);
 		System.out.println("*******************");

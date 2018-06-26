@@ -26,7 +26,7 @@ public class DestructionShaw implements AlgoDestruction{
 		int nbTech = 0;		
 		while(nbTech < soluc.sol.size()) {
 			while(nbTache < soluc.sol.get(nbTech).lesActivite.size()) {
-				Activite t = soluc.sol.get(nbTech).lesActivite.get(nbTache); 
+				Activite t = soluc.sol.get(nbTech).lesActivite.get(nbTache).clone(); 
 				if(!t.task.isPause()) {
 					add(tachesSolution, t);
 				}
@@ -41,6 +41,7 @@ public class DestructionShaw implements AlgoDestruction{
 		int i = r.nextInt(tachesSolution.size());
 		Activite tache = tachesSolution.get(i).clone();
 		taches.add(tache);
+		remove(tachesSolution, tache);
 		
 		Solution retour = soluc.clone();
 
@@ -51,10 +52,10 @@ public class DestructionShaw implements AlgoDestruction{
 			double y = r.nextDouble();
 			int position = (int)(Math.pow(y, probaRandom)*(solutions.size()-1));
 			add(taches, solutions.get(position));
-			tachesSolution.remove(solutions.get(position));
-			nbDestruction --;
+			remove(tachesSolution, solutions.get(position));
 		}
 	
+		System.out.println("tache size : " + taches.size() + " nb destruction : " + nbDestruction + " tachefaitesize : " + InitialiserModel.tacheFaite.size() + "\n " + taches.toString()+ "\n " + tachesSolution.toString());
 		Vector<Integer> tachesSelonIndice = tacheSelonPosition(retour, taches);
 		retour = DestructionRandom.suppressionTache(retour, tachesSelonIndice, InitialiserModel.tacheFaite.size());
 		
@@ -67,7 +68,7 @@ public class DestructionShaw implements AlgoDestruction{
 			addSelonSim(liste, activiteSol, tache);
 		}
 		
-		return null;
+		return liste;
 	}
 
 	private void addSelonSim(Vector<Activite> liste, Activite t, Activite tache) {
@@ -108,6 +109,25 @@ public class DestructionShaw implements AlgoDestruction{
 			i++;
 		}
 		taches.add(i,tache);
+	}
+	
+	private void remove(Vector<Activite> taches, Activite tache) {
+		 boolean trouve = false; 
+		  int id = 0;
+		  int ifin = taches.size() ;
+		  int im;
+		  
+		  /* boucle de recherche */
+		  while(!trouve && ((ifin - id) > 1)){
+		    im = (id + ifin)/2;
+		    trouve = (taches.get(im).task.nom == tache.task.nom);  
+		    if(taches.get(im).task.nom > tache.task.nom) ifin = im;
+		    else id = im;
+		  }
+		  
+		  if(taches.get(id).task.nom == tache.task.nom) {
+			  taches.remove(id);
+		  }
 	}
 	
 	public boolean appartient(Vector<Activite> taches, int nom){
