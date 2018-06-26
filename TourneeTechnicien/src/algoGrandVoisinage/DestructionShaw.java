@@ -1,8 +1,11 @@
 package algoGrandVoisinage;
 
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 import java.util.Vector;
 
+import outilDeBase.Activite;
 import outilDeBase.InitialiserModel;
 import outilDeBase.Solution;
 import outilDeBase.Tache;
@@ -18,11 +21,25 @@ public class DestructionShaw implements AlgoDestruction{
 	}
 	
 	public Solution detruit(Solution soluc) {
+		Vector<Activite> tachesSolution = new Vector<>();
+		int nbTache = 0;
+		int nbTech = 0;		
+		while(nbTech < soluc.sol.size()) {
+			while(nbTache < soluc.sol.get(nbTech).lesActivite.size()) {
+				Activite t = soluc.sol.get(nbTech).lesActivite.get(nbTache); 
+				if(!t.task.isPause()) {
+					add(tachesSolution, t);
+				}
+				nbTache++;
+			}
+			nbTache = 0;
+			nbTech ++;
+		}
 		
+		Vector<Activite> taches = new Vector<>();
 		Random r = new Random();
-		int i = r.nextInt(InitialiserModel.tacheFaite.size());
-		Tache tache = InitialiserModel.tacheFaite.get(i).clone();
-		Vector<Tache> taches = new Vector<>();
+		int i = r.nextInt(tachesSolution.size());
+		Activite tache = tachesSolution.get(i).clone();
 		taches.add(tache);
 		
 		Solution retour = soluc.clone();
@@ -30,10 +47,11 @@ public class DestructionShaw implements AlgoDestruction{
 		while(taches.size() < nbDestruction && InitialiserModel.tacheFaite.size() > 0) {
 			i = r.nextInt(taches.size());
 			tache = taches.get(i);
-			Vector<Tache> solutions = triRequete(taches, tache);
+			Vector<Activite> solutions = triRequete(tachesSolution, tache, retour);
 			double y = r.nextDouble();
 			int position = (int)(Math.pow(y, probaRandom)*(solutions.size()-1));
 			add(taches, solutions.get(position));
+			tachesSolution.remove(solutions.get(position));
 			nbDestruction --;
 		}
 	
@@ -43,20 +61,33 @@ public class DestructionShaw implements AlgoDestruction{
 		return retour;
 	}
 
-	private Vector<Tache> triRequete(Vector<Tache> taches, Tache tache) {
-		// TODO Auto-generated method stub
+	private Vector<Activite> triRequete(Vector<Activite> tachesSolution, Activite tache, Solution soluc) {
+		Vector<Activite> liste = new Vector<>();
+		for (Activite activiteSol : tachesSolution) {
+			addSelonSim(liste, activiteSol, tache);
+		}
+		
 		return null;
 	}
 
-	private Vector<Integer> tacheSelonPosition(Solution retour, Vector<Tache> taches) {
+	private void addSelonSim(Vector<Activite> liste, Activite t, Activite tache) {
+		double sim = Similarite.relation(t.task, tache.task, t.TpsDebServ, tache.TpsDebServ);
+		int i=0;
+		while(i<liste.size() && Similarite.relation(tache.task, liste.get(i).task, tache.TpsDebServ, liste.get(i).TpsDebServ)<sim){
+			i++;
+		}
+		liste.add(i,t);
+	}
+
+	private Vector<Integer> tacheSelonPosition(Solution soluc, Vector<Activite> taches) {
 		int i = 0;
 		int nbTache = 0;
 		int nbTech = 0;
 		Vector<Integer> liste = new Vector<>();
 		
-		while(nbTech < retour.sol.size()) {
-			while(nbTache < retour.sol.get(nbTech).lesActivite.size()) {
-				Tache t = retour.sol.get(nbTech).lesActivite.get(nbTache).task; 
+		while(nbTech < soluc.sol.size()) {
+			while(nbTache < soluc.sol.get(nbTech).lesActivite.size()) {
+				Tache t = soluc.sol.get(nbTech).lesActivite.get(nbTache).task; 
 				if(!t.isPause()) {
 					if(appartient(taches, t.nom)) {
 						liste.add(i);
@@ -71,15 +102,15 @@ public class DestructionShaw implements AlgoDestruction{
 		return liste;
 	}
 
-	private void add(Vector<Tache> taches, Tache tache) {
+	private void add(Vector<Activite> taches, Activite tache) {
 		int i=0;
-		while(i<taches.size() && taches.get(i).nom < tache.nom){
+		while(i<taches.size() && taches.get(i).task.nom < tache.task.nom){
 			i++;
 		}
 		taches.add(i,tache);
 	}
 	
-	public boolean appartient(Vector<Tache> taches, int nom){
+	public boolean appartient(Vector<Activite> taches, int nom){
 
 	  boolean trouve = false; 
 	  int id = 0;
@@ -89,12 +120,12 @@ public class DestructionShaw implements AlgoDestruction{
 	  /* boucle de recherche */
 	  while(!trouve && ((ifin - id) > 1)){
 	    im = (id + ifin)/2;
-	    trouve = (taches.get(im).nom == nom);  
-	    if(taches.get(im).nom > nom) ifin = im;
+	    trouve = (taches.get(im).task.nom == nom);  
+	    if(taches.get(im).task.nom > nom) ifin = im;
 	    else id = im;
 	  }
 	  
-	  if(taches.get(id).nom == nom) return(true);
+	  if(taches.get(id).task.nom == nom) return(true);
 	  else return(false);
 	  
 	}
