@@ -9,9 +9,9 @@ import outilDeBase.Solution;
 import outilDeBase.SolutionGreedy;
 import outilDeBase.Tache;
 
-public class ConstructionGreedy implements AlgoReconstruction {
+public class ConstructionGreedy {
 	
-	public Solution reconstruit(Solution soluc) {
+	public static Solution reconstruit(Solution soluc) {
 		int i=0;
 		while(i<InitialiserModel.tacheAFaire.size()){
 			Tache tache = InitialiserModel.tacheAFaire.get(i);

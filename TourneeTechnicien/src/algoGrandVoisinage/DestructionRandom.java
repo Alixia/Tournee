@@ -13,19 +13,22 @@ import outilDeBase.SolutionGreedy;
 import outilDeBase.Tache;
 import outilGeneral.GestionTableau;
 
-public class DestructionRandom implements AlgoDestruction{
+public class DestructionRandom{
 	
-	int nbDestruction;
 	static int nbTache;
 	static int nbTech;
 	static int nbTacheAvecSuppression;
 	static boolean depot;
 	
-	public DestructionRandom(int nb) {
-		this.nbDestruction = nb;
+	static int nbDestruction;
+	static int probaRandom;
+	
+	public static void intialiser(int nbDestructions, int probaRandoms) {
+		nbDestruction = nbDestructions;
+		probaRandom = probaRandoms;
 	}
 
-	public Solution detruit(Solution donnee) {
+	public static Solution detruit(Solution donnee) {
 		
 		Solution s = donnee.clone();
 		
@@ -37,7 +40,7 @@ public class DestructionRandom implements AlgoDestruction{
 		Vector<Integer> randomList = new Vector<>();
 		for (int i : ints) {
 			int j = 0;
-			while(i>j && j<randomList.size()) {
+			while(j<randomList.size() && i>randomList.get(j)) {
 				j++;
 			}
 			randomList.add(j, i);

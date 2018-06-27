@@ -7,9 +7,13 @@ public class InitialiserModel {
 	public static Vector <Tache> tacheAFaire = new Vector<Tache>();
 	public static Vector <Technicien> tech = new Vector<Technicien>();
 	public static Vector <Tache> tacheFaite = new Vector<>();
-	public static Vector <Vector<Integer>> K = new Vector<>();;
+	public static Vector <Vector<Integer>> K = new Vector<>();
 	
 	public static void initialiser(){
+		tacheAFaire = new Vector<Tache>();
+		tech = new Vector<Technicien>();
+		tacheFaite = new Vector<>();
+		K = new Vector<>();
 		Intialisertache();
 		InitialiserTechnician();
 		initialiserSimilarite();

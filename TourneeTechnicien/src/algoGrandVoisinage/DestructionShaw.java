@@ -10,17 +10,17 @@ import outilDeBase.InitialiserModel;
 import outilDeBase.Solution;
 import outilDeBase.Tache;
 
-public class DestructionShaw implements AlgoDestruction{
+public class DestructionShaw{
 
-	int nbDestruction;
-	int probaRandom;
+	static int nbDestruction;
+	static int probaRandom;
 	
-	public DestructionShaw(int nbDestruction, int probaRandom) {
-		this.nbDestruction = nbDestruction;
-		this.probaRandom = probaRandom;
+	public static void intialiser(int nbDestructions, int probaRandoms) {
+		nbDestruction = nbDestructions;
+		probaRandom = probaRandoms;
 	}
 	
-	public Solution detruit(Solution soluc) {
+	public static Solution detruit(Solution soluc) {
 		Vector<Activite> tachesSolution = new Vector<>();
 		int nbTache = 0;
 		int nbTech = 0;		
@@ -62,7 +62,7 @@ public class DestructionShaw implements AlgoDestruction{
 		return retour;
 	}
 
-	private Vector<Activite> triRequete(Vector<Activite> tachesSolution, Activite tache, Solution soluc) {
+	private static Vector<Activite> triRequete(Vector<Activite> tachesSolution, Activite tache, Solution soluc) {
 		Vector<Activite> liste = new Vector<>();
 		for (Activite activiteSol : tachesSolution) {
 			addSelonSim(liste, activiteSol, tache);
@@ -71,7 +71,7 @@ public class DestructionShaw implements AlgoDestruction{
 		return liste;
 	}
 
-	private void addSelonSim(Vector<Activite> liste, Activite t, Activite tache) {
+	private static void addSelonSim(Vector<Activite> liste, Activite t, Activite tache) {
 		double sim = Similarite.relation(t.task, tache.task, t.TpsDebServ, tache.TpsDebServ);
 		int i=0;
 		while(i<liste.size() && Similarite.relation(tache.task, liste.get(i).task, tache.TpsDebServ, liste.get(i).TpsDebServ)<sim){
@@ -80,7 +80,7 @@ public class DestructionShaw implements AlgoDestruction{
 		liste.add(i,t);
 	}
 
-	private Vector<Integer> tacheSelonPosition(Solution soluc, Vector<Activite> taches) {
+	private static Vector<Integer> tacheSelonPosition(Solution soluc, Vector<Activite> taches) {
 		int i = 0;
 		int nbTache = 0;
 		int nbTech = 0;
@@ -103,7 +103,7 @@ public class DestructionShaw implements AlgoDestruction{
 		return liste;
 	}
 
-	private void add(Vector<Activite> taches, Activite tache) {
+	private static void add(Vector<Activite> taches, Activite tache) {
 		int i=0;
 		while(i<taches.size() && taches.get(i).task.nom < tache.task.nom){
 			i++;
@@ -111,7 +111,7 @@ public class DestructionShaw implements AlgoDestruction{
 		taches.add(i,tache);
 	}
 	
-	private void remove(Vector<Activite> taches, Activite tache) {
+	private static void remove(Vector<Activite> taches, Activite tache) {
 		 boolean trouve = false; 
 		  int id = 0;
 		  int ifin = taches.size() ;
@@ -130,7 +130,7 @@ public class DestructionShaw implements AlgoDestruction{
 		  }
 	}
 	
-	public boolean appartient(Vector<Activite> taches, int nom){
+	public static boolean appartient(Vector<Activite> taches, int nom){
 
 	  boolean trouve = false; 
 	  int id = 0;

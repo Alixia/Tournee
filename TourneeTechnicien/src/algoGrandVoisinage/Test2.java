@@ -15,9 +15,8 @@ public class Test2 {
 	
 	public static void main(String[] args){
 		String chemin ="inst1/";
-		ReadData D = new ReadData(chemin);
-		D.lancerLecture();
-		System.out.println("nbr Tache:"+D.tache+"; nbrTech:"+D.tech+"; nbrDepot:"+D.depot);
+		ReadData.lancerLecture(chemin);
+		System.out.println("nbr Tache:"+ReadData.tache+"; nbrTech:"+ReadData.tech+"; nbrDepot:"+ReadData.depot);
 		InitialiserModel.initialiser();
 		Solution s = new Solution();
 		int i =0;

@@ -6,9 +6,7 @@ import outilDeBase.Solution;
 import outilDeBase.Tache;
 
 public class GrandVoisinage {
-	Solution meilleurSolution;
-	Vector <Tache> tacheFaites;
-	
+	Solution meilleurSolution;	
 	
 	public GrandVoisinage(Solution meilleurSolution) {
 		this.meilleurSolution = meilleurSolution;

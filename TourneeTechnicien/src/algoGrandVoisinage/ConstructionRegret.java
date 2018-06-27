@@ -9,10 +9,9 @@ import outilDeBase.Solution;
 import outilDeBase.SolutionGreedy;
 import outilDeBase.Tache;
 
-public class ConstructionRegret implements AlgoReconstruction {
+public class ConstructionRegret {
 
-	@Override
-	public Solution reconstruit(Solution soluc) {
+	public static Solution reconstruit(Solution soluc) {
 		boolean premierTour = true;
 		while(!InitialiserModel.tacheAFaire.isEmpty() && premierTour){
 			Vector<coupleTmp> FeasRoute= new Vector<>();
@@ -64,7 +63,7 @@ public class ConstructionRegret implements AlgoReconstruction {
 		return soluc;
 	}
 
-	private boolean addRegret(Vector<coupleTmp> feasRoute, Vector<Route> feasRouteTmp, Tache t) {
+	private static boolean addRegret(Vector<coupleTmp> feasRoute, Vector<Route> feasRouteTmp, Tache t) {
 		// TODO Auto-generated method stub
 		boolean meilleur = true;
 				
@@ -89,7 +88,7 @@ public class ConstructionRegret implements AlgoReconstruction {
 		return meilleur;
 	}
 	
-	private class coupleTmp{
+	private static class coupleTmp{
 		Route feasRoute;
 		double cost;
 		public coupleTmp(Route feasRoute, double cost){

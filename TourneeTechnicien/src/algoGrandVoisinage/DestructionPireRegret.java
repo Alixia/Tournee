@@ -11,17 +11,17 @@ import outilDeBase.SolutionGreedy;
 import outilDeBase.Tache;
 import outilGeneral.GestionTableau;
 
-public class DestructionPireRegret implements AlgoDestruction{
+public class DestructionPireRegret{
 	
-	int nbDestruction;
-	int probaRandom;
+	static int nbDestruction;
+	static int probaRandom;
 	
-	public DestructionPireRegret(int nbDestruction, int probaRandom) {
-		this.nbDestruction = nbDestruction;
-		this.probaRandom = probaRandom;
+	public static void intialiser(int nbDestructions, int probaRandoms) {
+		nbDestruction = nbDestructions;
+		probaRandom = probaRandoms;
 	}
 
-	public Solution detruit(Solution soluc) {
+	public static Solution detruit(Solution soluc) {
 		
 		Solution retour = soluc.clone();
 
@@ -41,7 +41,7 @@ public class DestructionPireRegret implements AlgoDestruction{
 	}
 	
 	
-	private ArrayList<Couple> triSolution(Solution soluc) {
+	private static ArrayList<Couple> triSolution(Solution soluc) {
 		
 		Vector <Tache> tacheAFaire = GestionTableau.cloneTache(InitialiserModel.tacheAFaire);
 		Vector <Tache> tacheFaite = GestionTableau.cloneTache(InitialiserModel.tacheFaite);
@@ -64,7 +64,7 @@ public class DestructionPireRegret implements AlgoDestruction{
 	}
 	
 	//ajoute les couples selon les couts (du plus benefique au moins)
-	private void add(ArrayList<Couple> liste, Couple c) {
+	private static void add(ArrayList<Couple> liste, Couple c) {
 		int i=0;
 		while(i<liste.size() && liste.get(i).s.costsol < c.s.costsol){
 			i++;
@@ -72,7 +72,7 @@ public class DestructionPireRegret implements AlgoDestruction{
 		liste.add(i,c);
 	}
 	
-	private class Couple {
+	private static class Couple {
 		Solution s;
 		Vector <Tache> tacheAFaire;
 		Vector <Tache> tacheFaite;

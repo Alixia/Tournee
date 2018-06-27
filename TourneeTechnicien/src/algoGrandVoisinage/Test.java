@@ -6,34 +6,52 @@ import outilDeBase.*;
 public class Test {
 	
 	public static int nbDestruction = 4;
+	public static int probaRandom = 4;
+	
+	//sim (shaw)
+	public static double phi = 1;
+	public static double xi = 1;
+	public static double psy = 1;
+	public static double omega = 1;
+	
+	
+	public static void initialiser(String chemin){
+		ReadData.lancerLecture(chemin);
+		InitialiserModel.initialiser();
+		DestructionShaw.intialiser(nbDestruction, probaRandom);
+		DestructionRandom.intialiser(nbDestruction, probaRandom);
+		DestructionPireRegret.intialiser(nbDestruction, probaRandom);
+		Similarite.intialiser(phi, xi, psy, omega);
+	}
 
 	public static void main(String[] args){
 		String chemin ="inst1/";
-		ReadData D = new ReadData(chemin);
-		D.lancerLecture();
-		System.out.println("nbr Tache:"+D.tache+"; nbrTech:"+D.tech+"; nbrDepot:"+D.depot);
+		initialiser(chemin);
 		
-		InitialiserModel.initialiser();
+		System.out.println("nbr Tache:"+ReadData.tache+"; nbrTech:"+ReadData.tech+"; nbrDepot:"+ReadData.depot);
+		
 		InitialiserModel.afficher();
-		Similarite.intialiser(1, 1, 1, 1);
 		
 		Solution s = SolutionGreedy.solutionInitiale();
 		System.out.println(s.toString());
 		InitialiserModel.afficher();
-		//AlgoDestruction dr = new DestructionRandom(4);
-		//AlgoDestruction dr = new DestructionPireRegret(4, 0);
-		AlgoDestruction dr = new DestructionShaw(4, 1);
-		AlgoReconstruction rg = new ConstructionRegret();
-		Solution soluc = dr.detruit(s);
+		
+		//Solution soluc = DestructionPireRegret.detruit(s);
+		//Solution soluc = DestructionRandom.detruit(s);
+		Solution soluc = DestructionShaw.detruit(s);
+		
 		System.out.println("*******************");
 		System.out.println(soluc.toString());
 		InitialiserModel.afficher();
 		System.out.println("*******************");
-//		Solution soluc2 = rg.reconstruit(soluc);
-//		System.out.println(soluc2.toString());
-//		System.out.println("*******************");
-//		System.out.println("*******************");
-//		InitialiserModel.afficher();
+		
+		Solution soluc2 = ConstructionGreedy.reconstruit(soluc);
+		//Solution soluc2 = ConstructionRegret.reconstruit(soluc);
+		
+		System.out.println(soluc2.toString());
+		System.out.println("*******************");
+		System.out.println("*******************");
+		InitialiserModel.afficher();
 	}
 	
 }
