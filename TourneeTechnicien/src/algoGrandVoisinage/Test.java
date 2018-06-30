@@ -6,7 +6,7 @@ import outilDeBase.*;
 public class Test {
 	
 	public static int nbDestruction = 4;
-	public static int probaRandom = 4;
+	public static int probaRandom = 0;
 	
 	//sim (shaw)
 	public static double phi = 1;
@@ -45,8 +45,8 @@ public class Test {
 		InitialiserModel.afficher();
 		System.out.println("*******************");
 		
-		Solution soluc2 = ConstructionGreedy.reconstruit(soluc);
-		//Solution soluc2 = ConstructionRegret.reconstruit(soluc);
+		//Solution soluc2 = ConstructionGreedy.reconstruit(soluc);
+		Solution soluc2 = ConstructionRegret.reconstruit(soluc);
 		
 		System.out.println(soluc2.toString());
 		System.out.println("*******************");
