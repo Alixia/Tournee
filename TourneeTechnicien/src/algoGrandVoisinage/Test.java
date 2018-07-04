@@ -46,7 +46,7 @@ public class Test {
 		System.out.println("*******************");
 		
 		//Solution soluc2 = ConstructionGreedy.reconstruit(soluc);
-		Solution soluc2 = ConstructionRegret.reconstruit(soluc);
+		Solution soluc2 = ConstructionRegret.reconstruit(soluc, 2);
 		
 		System.out.println(soluc2.toString());
 		System.out.println("*******************");

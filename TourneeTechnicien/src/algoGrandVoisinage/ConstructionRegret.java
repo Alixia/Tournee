@@ -11,7 +11,7 @@ import outilDeBase.Tache;
 
 public class ConstructionRegret {
 
-	public static Solution reconstruit(Solution soluc) {
+	public static Solution reconstruit(Solution soluc, int nbRegret) {
 		boolean premierTour = true;
 		while(!InitialiserModel.tacheAFaire.isEmpty() && premierTour){
 			Vector<coupleTmp> FeasRoute= new Vector<>();
@@ -26,10 +26,16 @@ public class ConstructionRegret {
 					if(ReadData.competence[soluc.sol.get(k).tech.nom][tache.nom]==1){
 						Route r= soluc.sol.get(k);
 						Vector <Route> routess = SolutionGreedy.GetPossibleInsertion(tache, r);
-						Route.add2(FeasRouteTmp,routess);
+						if(nbRegret == 1) {
+							Route.add1(FeasRouteTmp,routess);
+						}if(nbRegret == 2) {
+							Route.add2(FeasRouteTmp,routess);
+						}if(nbRegret == 3) {
+							Route.add3(FeasRouteTmp,routess);
+						}
 					}
 				}
-				boolean meilleur = addRegret(FeasRoute, FeasRouteTmp, tache);
+				boolean meilleur = addRegret2(FeasRoute, FeasRouteTmp, tache);
 				if(meilleur){
 					tacheMeilleur = InitialiserModel.tacheAFaire.get(i).clone();
 					indiceMeilleur = i;
@@ -55,6 +61,7 @@ public class ConstructionRegret {
 				}
 				z++;
 			}
+			soluc.Calcul_costsol();
 		}
 		
 		
@@ -63,7 +70,31 @@ public class ConstructionRegret {
 		return soluc;
 	}
 
-	private static boolean addRegret(Vector<coupleTmp> feasRoute, Vector<Route> feasRouteTmp, Tache t) {
+	private static boolean addRegret2(Vector<coupleTmp> feasRoute, Vector<Route> feasRouteTmp, Tache t) {
+		// TODO Auto-generated method stub
+		boolean meilleur = true;
+				
+		if(!feasRouteTmp.isEmpty()){
+			double cout = 0;
+			if(feasRouteTmp.size()==1){
+				cout = -t.prio*100;
+			}else{
+				cout = feasRouteTmp.get(1).cost-feasRouteTmp.get(0).cost;
+			}			
+			int i=0;
+			while(i<feasRoute.size() && feasRoute.get(i).cost < cout){
+				meilleur = false;
+				i++;
+			}
+			feasRoute.add(i,new coupleTmp(feasRouteTmp.get(0),cout));
+		}else{
+			meilleur = false;
+		}
+		
+		return meilleur;
+	}
+	
+	private static boolean addRegret1(Vector<coupleTmp> feasRoute, Vector<Route> feasRouteTmp, Tache t) {
 		// TODO Auto-generated method stub
 		boolean meilleur = true;
 				

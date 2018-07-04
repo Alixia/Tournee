@@ -151,18 +151,48 @@ public class Route {
 	
 	public static void add2(Vector<Route> vr, Vector<Route> r){
 		if(!r.isEmpty()){
-			int i=0;
-			while(i<vr.size() && vr.get(i).cost < r.get(0).cost){
-				i++;
+			if(r.size()==1) {
+				add1(vr, r);
+			}else {
+				int k = 0;
+				if(r.get(1).cost>r.get(0).cost) {
+					k = 0;
+				}else {
+					k = 1;
+				}
+				int i=0;
+				while(i<vr.size() && vr.get(i).cost < r.get(k).cost){
+					i++;
+				}
+				if(i<vr.size()) {
+					vr.add(i,r.get(k));
+					vr.add(i+1,r.get((k+1)%2));
+				}else{
+					vr.add(i,r.get(k));
+					k = (k+1)%2;
+					while(i<vr.size() && vr.get(i).cost < r.get(k).cost){
+						i++;
+					}
+					vr.add(i,r.get(k));
+				}
 			}
-			vr.add(i,r.get(0));
 		}
-		if(r.size()>=2){
-			int i=0;
-			while(i<vr.size() && vr.get(i).cost < r.get(1).cost){
-				i++;
+	}
+	
+	public static void add3(Vector<Route> vr, Vector<Route> r){
+		if(!r.isEmpty()){
+			if(r.size()==1) {
+				add1(vr, r);
+			}else{
+				add2(vr, r);
+				if(r.size()>=3) {
+					int i=0;
+					while(i<vr.size() && vr.get(i).cost < r.get(2).cost){
+						i++;
+					}
+					vr.add(i,r.get(2));
+				}
 			}
-			vr.add(i,r.get(1));
 		}
 	}
 

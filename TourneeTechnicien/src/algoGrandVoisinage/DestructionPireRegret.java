@@ -30,11 +30,7 @@ public class DestructionPireRegret{
 			Random r = new Random();
 			double y = r.nextDouble();
 			int position =0;
-			if(y==0.) {
-				position = 0;
-			}else {
-				position = (int)(Math.pow(y, probaRandom)*solutions.size());
-			}
+			position = (int)(Math.pow(y, probaRandom)*(solutions.size())-1);
 			retour = solutions.get(position).s;
 			InitialiserModel.tacheAFaire = solutions.get(position).tacheAFaire;
 			InitialiserModel.tacheFaite = solutions.get(position).tacheFaite;
@@ -70,7 +66,7 @@ public class DestructionPireRegret{
 	//ajoute les couples selon les couts (du plus benefique au moins)
 	private static void add(ArrayList<Couple> liste, Couple c) {
 		int i=0;
-		while(i<liste.size() && liste.get(i).s.costsol < c.s.costsol){
+		while(i<liste.size() && liste.get(i).s.costsol > c.s.costsol){
 			i++;
 		}
 		liste.add(i,c);

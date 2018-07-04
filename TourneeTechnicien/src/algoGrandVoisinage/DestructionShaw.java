@@ -50,12 +50,7 @@ public class DestructionShaw{
 			tache = taches.get(i);
 			Vector<Activite> solutions = triRequete(tachesSolution, tache, retour);
 			double y = r.nextDouble();
-			int position = 0;
-			if(y==0.) {
-				position = 0;
-			}else {
-				position = (int)(Math.pow(y, probaRandom)*solutions.size());
-			}
+			int position = (int)(Math.pow(y, probaRandom)*(solutions.size())-1);
 			add(taches, solutions.get(position));
 			remove(tachesSolution, solutions.get(position));
 		}
@@ -79,7 +74,7 @@ public class DestructionShaw{
 	private static void addSelonSim(Vector<Activite> liste, Activite t, Activite tache) {
 		double sim = Similarite.relation(t.task, tache.task, t.TpsDebServ, tache.TpsDebServ);
 		int i=0;
-		while(i<liste.size() && Similarite.relation(tache.task, liste.get(i).task, tache.TpsDebServ, liste.get(i).TpsDebServ)<sim){
+		while(i<liste.size() && Similarite.relation(tache.task, liste.get(i).task, tache.TpsDebServ, liste.get(i).TpsDebServ)>sim){
 			i++;
 		}
 		liste.add(i,t);
