@@ -30,7 +30,11 @@ public class DestructionPireRegret{
 			Random r = new Random();
 			double y = r.nextDouble();
 			int position =0;
-			position = (int)(Math.pow(y, probaRandom)*(solutions.size())-1);
+			if(y==0.) {
+				position = 0;
+			}else {
+				position = (int)(Math.pow(y, probaRandom)*solutions.size());
+			}
 			retour = solutions.get(position).s;
 			InitialiserModel.tacheAFaire = solutions.get(position).tacheAFaire;
 			InitialiserModel.tacheFaite = solutions.get(position).tacheFaite;

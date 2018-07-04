@@ -50,7 +50,12 @@ public class DestructionShaw{
 			tache = taches.get(i);
 			Vector<Activite> solutions = triRequete(tachesSolution, tache, retour);
 			double y = r.nextDouble();
-			int position = (int)(Math.pow(y, probaRandom)*(solutions.size())-1);
+			int position = 0;
+			if(y==0.) {
+				position = 0;
+			}else {
+				position = (int)(Math.pow(y, probaRandom)*solutions.size());
+			}
 			add(taches, solutions.get(position));
 			remove(tachesSolution, solutions.get(position));
 		}
