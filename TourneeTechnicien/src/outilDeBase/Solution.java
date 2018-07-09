@@ -122,7 +122,7 @@ public class Solution {
 	}
 	
 	public int hashCode() {
-		int hash = (int)costsol;
+		int hash = 0;
 		for (int i=0 ; i<sol.size() ; i++) {
 			Route route = sol.get(i);
 			hash += route.hashCode()*(i+1);
