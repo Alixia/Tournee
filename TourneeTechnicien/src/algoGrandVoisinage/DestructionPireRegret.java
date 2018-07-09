@@ -36,6 +36,8 @@ public class DestructionPireRegret{
 			InitialiserModel.tacheFaite = solutions.get(position).tacheFaite;
 			nbDestruction --;
 		}
+		
+		retour.Calcul_costsol();
 
 		return retour;
 	}

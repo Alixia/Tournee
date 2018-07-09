@@ -15,29 +15,21 @@ public class ConstructionGreedy {
 		int i=0;
 		while(i<InitialiserModel.tacheAFaire.size()){
 			Tache tache = InitialiserModel.tacheAFaire.get(i);
-			Vector<Route> FeasRoute= new Vector<Route>();
+			Vector<Solution> FeasRoute= new Vector<Solution>();
 			for (int k=0; k<soluc.sol.size();k++){
 				if(ReadData.competence[soluc.sol.get(k).tech.nom][tache.nom]==1){
-					Route r= soluc.sol.get(k);
+					Route r = soluc.sol.get(k);
 					Vector <Route> routess = SolutionGreedy.GetPossibleInsertion(tache, r);
-					Route.add1(FeasRoute,routess);
+					Vector <Solution> routess2 = SolutionGreedy.creerSolutions(soluc, routess, k, 1);
+					Solution.add1(FeasRoute,routess2);
 				}
 			}
 			
-			boolean trouv=false;
-			int z=0;
 			if(!FeasRoute.isEmpty()){
 				InitialiserModel.tacheFaite.add(tache);
 				InitialiserModel.tacheAFaire.remove(i);
+				soluc = FeasRoute.get(0);
 				i--;
-			}
-			while(z<soluc.sol.size() && !trouv && !FeasRoute.isEmpty()){
-				if (soluc.sol.get(z).tech.nom==FeasRoute.get(0).tech.nom){
-					trouv=true;
-					soluc.sol.remove(z);
-					soluc.sol.add(z,FeasRoute.get(0));
-				}
-				z++;
 			}
 			i++;
 		}

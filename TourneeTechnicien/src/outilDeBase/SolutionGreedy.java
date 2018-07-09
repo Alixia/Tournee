@@ -4,113 +4,27 @@ import java.util.Vector;
 
 public class SolutionGreedy {
 	
-	public static Solution solutionTache(Vector<Tache> taches){
-		Solution solution = new Solution();
-		int i =0;
-		while(i<taches.size()){
-			Tache tache = taches.get(i);
-			Vector<Route> FeasRoute= new Vector<Route>();
-			for (int k=0; k<solution.sol.size();k++){
-				if(ReadData.competence[solution.sol.get(k).tech.nom][tache.nom]==1){
-					Route r= solution.sol.get(k);
-					Vector <Route> routess = GetPossibleInsertion(tache, r);
-					Route.add1(FeasRoute,routess);
-				}
-			}
-			
-			boolean trouv=false;
-			int z=0;
-			while(z<solution.sol.size() && !trouv && !FeasRoute.isEmpty()){
-				if (solution.sol.get(z).tech.nom==FeasRoute.get(0).tech.nom){
-					trouv=true;
-					solution.sol.remove(z);
-					solution.sol.add(z,FeasRoute.get(0));
-				}
-				z++;
-			}
-			i++;
-		}
-		
-		//CalculerLesCouts(solution);
-		solution.Calcul_costsol();
-
-		return solution;
-	}
 	
-	//cree une solution avec lordre des tache et selon chacun technicien, parametre : tableau [nbtech][nb tache selon tech]
-	public static Solution solutionSelonOrdre(Vector<Vector<Tache>> vecteurTache) {
-		Solution solution = new Solution();
-		int indiceTech =0;
-		//parcours sur les tech
-		while(indiceTech<vecteurTache.size()){
-			//parcours sur les taches selon tech
-			int indiceTache = 0;
-			while(!vecteurTache.get(indiceTech).isEmpty()) {
-				Route r= solution.sol.get(indiceTech);
-				Tache tache = vecteurTache.get(indiceTech).get(0);
-				int placeActivite = 2;
-				if(!r.lesActivite.get(r.lesActivite.size()-2).isPause() ) {
-					placeActivite = 2;
-				}else if(!r.lesActivite.get(r.lesActivite.size()-3).isPause()) {
-					placeActivite = 3;
-				}else{
-					placeActivite = 4;
-				}
-				Vector<Route> NewR = evaluerInsertion (r, tache, r.lesActivite.size()-placeActivite);
-				if(NewR.isEmpty()){
-					NewR = evaluerInsertion (r, tache, r.lesActivite.size()-placeActivite+1);
-				}
-				double min = NewR.get(0).cost;
-				int index = 0;
-				int j=1;
-				while( j<NewR.size()){
-					if (NewR.get(j).cost<min){
-						min = NewR.get(j).cost;
-						index=j;
-					}
-					j++;
-				}
-				Route insertion = NewR.get(index);
-				solution.sol.remove(indiceTech);
-				solution.sol.add(indiceTech,insertion);
-				indiceTech++;
-			}
-		}
-		
-		//CalculerLesCouts(solution);
-		solution.Calcul_costsol();
-
-		return solution;
-	}
-
 	public static Solution solutionInitiale(){
 		Solution solution = new Solution();
 		int i=0;
 		while(i<InitialiserModel.tacheAFaire.size()){
 			Tache tache = InitialiserModel.tacheAFaire.get(i);
-			Vector<Route> FeasRoute= new Vector<Route>();
+			Vector<Solution> FeasRoute= new Vector<Solution>();
 			for (int k=0; k<solution.sol.size();k++){
 				if(ReadData.competence[solution.sol.get(k).tech.nom][tache.nom]==1){
-					Route r= solution.sol.get(k);
+					Route r = solution.sol.get(k);
 					Vector <Route> routess = GetPossibleInsertion(tache, r);
-					Route.add1(FeasRoute,routess);
+					Vector <Solution> routess2 = creerSolutions(solution, routess, k, 1);
+					Solution.add1(FeasRoute,routess2);
 				}
 			}
 			
-			boolean trouv=false;
-			int z=0;
 			if(!FeasRoute.isEmpty()){
 				InitialiserModel.tacheFaite.add(tache);
 				InitialiserModel.tacheAFaire.remove(i);
+				solution = FeasRoute.get(0);
 				i--;
-			}
-			while(z<solution.sol.size() && !trouv && !FeasRoute.isEmpty()){
-				if (solution.sol.get(z).tech.nom==FeasRoute.get(0).tech.nom){
-					trouv=true;
-					solution.sol.remove(z);
-					solution.sol.add(z,FeasRoute.get(0));
-				}
-				z++;
 			}
 			i++;
 		}
@@ -119,6 +33,24 @@ public class SolutionGreedy {
 		CalculerLesCouts(solution);
 
 		return solution;
+	}
+	
+	public static Vector<Solution> creerSolutions(Solution sol, Vector<Route> routess, int k, int nbAjout) {
+		
+		Vector<Solution> solutions = new Vector<>();
+		int i = 0;
+		while(i < routess.size() && i < nbAjout) {
+			Solution soltmp = sol.clone();
+			soltmp.sol.remove(k);
+			soltmp.sol.add(k,routess.get(i));
+			Solution solTmp2 = soltmp.clone();
+			CalculerLesCouts(solTmp2);
+			soltmp.code_sol = solTmp2.code_sol;
+			solutions.add(soltmp);
+			i++;
+		}
+		
+		return solutions;
 	}
 	
 	public static void CalculerLesCouts(Solution solution){

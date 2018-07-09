@@ -56,5 +56,62 @@ public class Solution {
 		}
 		costsol = c;
 	}
+	
+	public static void add1(Vector<Solution> vr, Vector<Solution> r){
+		if(!r.isEmpty()){
+			int i=0;
+			while(i<vr.size() && vr.get(i).costsol < r.get(0).costsol && i<3){
+				i++;
+			}
+			vr.add(i,r.get(0));
+		}
+	}
+	
+	public static void add2(Vector<Solution> vr, Vector<Solution> r){
+		if(!r.isEmpty()){
+			if(r.size()==1) {
+				add1(vr, r);
+			}else {
+				int k = 0;
+				if(r.get(1).costsol>r.get(0).costsol) {
+					k = 0;
+				}else {
+					k = 1;
+				}
+				int i=0;
+				while(i<vr.size() && vr.get(i).costsol < r.get(k).costsol && i<3){
+					i++;
+				}
+				if(i<vr.size()) {
+					vr.add(i,r.get(k));
+					vr.add(i+1,r.get((k+1)%2));
+				}else{
+					vr.add(i,r.get(k));
+					k = (k+1)%2;
+					while(i<vr.size() && vr.get(i).costsol < r.get(k).costsol && i<3){
+						i++;
+					}
+					vr.add(i,r.get(k));
+				}
+			}
+		}
+	}
+	
+	public static void add3(Vector<Solution> vr, Vector<Solution> r){
+		if(!r.isEmpty()){
+			if(r.size()==1) {
+				add1(vr, r);
+			}else{
+				add2(vr, r);
+				if(r.size()>=3) {
+					int i=0;
+					while(i<vr.size() && vr.get(i).costsol < r.get(2).costsol && i<3){
+						i++;
+					}
+					vr.add(i,r.get(2));
+				}
+			}
+		}
+	}
 
 }

@@ -46,8 +46,9 @@ public class DestructionRandom{
 			randomList.add(j, i);
 		}
 		
-		
 		s = suppressionTache(s, randomList, InitialiserModel.tacheFaite.size());
+		s.Calcul_costsol();
+		
 		return s;
 	}
 	
