@@ -45,7 +45,6 @@ public class SolutionGreedy {
 			soltmp.sol.add(k,routess.get(i));
 			Solution solTmp2 = soltmp.clone();
 			CalculerLesCouts(solTmp2);
-			soltmp.code_sol = solTmp2.code_sol;
 			solutions.add(soltmp);
 			i++;
 		}

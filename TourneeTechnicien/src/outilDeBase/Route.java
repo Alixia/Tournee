@@ -8,22 +8,20 @@ public class Route {
 
 	public Technicien tech ;
 	public Vector <Activite> lesActivite = new Vector<>();
-	public Double cost;
+	public double cost;
 	public int gain;
 	public int passageDepot;
-	public int code_sol;		//peut etre inutile
 	public Vector<int[]> piece = new Vector<>();
 
 
 	public Route(Technicien tech, Vector<Activite> lesActivite, Vector<int[]> piece, Double cost, int gain,
-			int passageDepot, int code_sol) {
+			int passageDepot) {
 		this.tech = tech;
 		this.lesActivite = lesActivite;
 		this.piece = piece;
 		this.cost = cost;
 		this.gain = gain;
 		this.passageDepot = passageDepot;
-		this.code_sol = code_sol;
 	}
 
 	public Route (Technicien k){
@@ -65,12 +63,12 @@ public class Route {
 	}
 
 	public Route clone(){
-		Route r= new Route (tech, GestionTableau.clone(lesActivite), GestionTableau.cloneVectTab(piece),cost, gain, passageDepot, code_sol);
+		Route r= new Route (tech, GestionTableau.clone(lesActivite), GestionTableau.cloneVectTab(piece),cost, gain, passageDepot);
 		return r;
 	}
 
 	public Route clone2(){
-		Route r = new Route (tech,new Vector<Activite>(),null,cost,gain,passageDepot, 0);
+		Route r = new Route (tech,new Vector<Activite>(),null,cost,gain,passageDepot);
 		Vector <int []> vec = new Vector <int []>();
 
 		for(int i=0; i<lesActivite.size();i++){
@@ -544,5 +542,26 @@ public class Route {
 			r1=null;	
 		}
 		return r1;
+	}
+	
+	public boolean equals(Route r) {
+		if(cost != r.cost) {
+			return false;
+		}else {
+			for(int i=0; i<lesActivite.size() && i< r.lesActivite.size() ; i++) {
+				if(lesActivite.get(i).task.nom != r.lesActivite.get(i).task.nom) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	
+	public int hashCode() {
+		int hash = (int)cost;
+		for(int i=0; i<lesActivite.size() ; i++) {
+			hash += lesActivite.get(i).task.nom;
+		}
+		return hash;
 	}
 }
