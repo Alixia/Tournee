@@ -34,6 +34,7 @@ public class GrandVoisinage {
 		meilleurSolution = s;
 		this.timeMax = timeMax;
 		timeDeb = System.currentTimeMillis();
+		reinitialise();
 		
 		while(!timeout()) {
 			if(nbIteration == 100) {
