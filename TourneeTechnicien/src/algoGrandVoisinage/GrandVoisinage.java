@@ -16,12 +16,8 @@ public class GrandVoisinage {
 	int scoreConstRegret2;
 	int scoreConstRegret3;
 	
-	public GrandVoisinage(Solution meilleurSolution) {
-		this.meilleurSolution = meilleurSolution;
-	}
-	
-	public Solution lancer() {
-		
+	public Solution lancer(double time, Solution s) {
+		meilleurSolution = s;
 		
 		return null;
 	}

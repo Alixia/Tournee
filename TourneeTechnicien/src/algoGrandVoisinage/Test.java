@@ -46,12 +46,13 @@ public class Test {
 		System.out.println("*******************");
 		
 		//Solution soluc2 = ConstructionGreedy.reconstruit(soluc);
-		Solution soluc2 = ConstructionRegret.reconstruit(soluc, 2);
+		Solution soluc2 = ConstructionRegret.reconstruit(soluc, 3);
 		
 		System.out.println(soluc2.toString());
 		System.out.println("*******************");
 		System.out.println("*******************");
 		InitialiserModel.afficher();
+		
 	}
 	
 }

@@ -59,6 +59,8 @@ public class DestructionShaw{
 		Vector<Integer> tachesSelonIndice = tacheSelonPosition(retour, taches);
 		retour = DestructionRandom.suppressionTache(retour, tachesSelonIndice, InitialiserModel.tacheFaite.size());
 		
+		retour.Calcul_costsol();
+		
 		return retour;
 	}
 
