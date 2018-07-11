@@ -9,12 +9,12 @@ public class HashagePerso {
 		hash = new Vector<>();
 	}
 
-	public boolean add(int valeur) {
+	public boolean addP(int valeur) {
 		int i = 0; 
 		while(i<hash.size() && hash.get(i)<valeur) {
 			i++;
 		}
-		if(hash.get(i)==valeur) {
+		if(i<hash.size() && hash.get(i)==valeur) {
 			return false;
 		}
 		hash.add(i, valeur);

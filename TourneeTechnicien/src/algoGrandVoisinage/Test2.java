@@ -1,45 +1,58 @@
 package algoGrandVoisinage;
+import java.security.AlgorithmConstraints;
 
-import java.util.PriorityQueue;
-import java.util.Random;
-import java.util.Vector;
-
-import outilDeBase.InitialiserModel;
-import outilDeBase.ReadData;
-import outilDeBase.Route;
-import outilDeBase.Solution;
-import outilDeBase.SolutionGreedy;
-import outilDeBase.Tache;
+import outilDeBase.*;
 
 public class Test2 {
 	
+	public static int nbDestruction = 4;
+	public static int probaRandom = 0;
+	
+	//sim (shaw)
+	public static double phi = 1;
+	public static double xi = 1;
+	public static double psy = 1;
+	public static double omega = 1;
+	
+	
+	public static void initialiser(String chemin){
+		ReadData.lancerLecture(chemin);
+		InitialiserModel.initialiser();
+		DestructionShaw.intialiser(nbDestruction, probaRandom);
+		DestructionRandom.intialiser(nbDestruction, probaRandom);
+		DestructionPireRegret.intialiser(nbDestruction, probaRandom);
+		Similarite.intialiser(phi, xi, psy, omega);
+	}
+
 	public static void main(String[] args){
 		String chemin ="inst1/";
-		ReadData.lancerLecture(chemin);
+		initialiser(chemin);
+		
 		System.out.println("nbr Tache:"+ReadData.tache+"; nbrTech:"+ReadData.tech+"; nbrDepot:"+ReadData.depot);
-		InitialiserModel.initialiser();
-		Solution s = new Solution();
-		int i =0;
-		while(InitialiserModel.tacheAFaire.get(i).nom != 4) {
-			i++;
-		}
-		Tache tache = InitialiserModel.tacheAFaire.get(i);
-		Route r = s.sol.get(1);
-		Route rnew = SolutionGreedy.evaluerInsertion (r, tache, 2).get(0);
-		s.sol.remove(1);
-		s.sol.add(1, rnew);
+		
+		InitialiserModel.afficher();
+		
+		Solution s = SolutionGreedy.solutionInitiale();
 		System.out.println(s.toString());
-		i = 0;
-		while(InitialiserModel.tacheAFaire.get(i).nom != 6) {
-			i++;
-		}
-		tache = InitialiserModel.tacheAFaire.get(i);
-		r = s.sol.get(1);
-		//rnew = SolutionGreedy.evaluerInsertion (r, tache, 3).get(0);
-		Vector <Route> rs = SolutionGreedy.GetPossibleInsertion(tache, r);
-		for (Route route : rs) {
-			System.out.println("*******");
-			System.out.println(route.toString());
-		}
+		InitialiserModel.afficher();
+		
+		//Solution soluc = DestructionPireRegret.detruit(s);
+		//Solution soluc = DestructionRandom.detruit(s);
+		Solution soluc = DestructionShaw.detruit(s);
+		
+		System.out.println("*******************");
+		System.out.println(soluc.toString());
+		InitialiserModel.afficher();
+		System.out.println("*******************");
+		
+		//Solution soluc2 = ConstructionGreedy.reconstruit(soluc);
+		Solution soluc2 = ConstructionRegret.reconstruit(soluc, 3);
+		
+		System.out.println(soluc2.toString());
+		System.out.println("*******************");
+		System.out.println("*******************");
+		InitialiserModel.afficher();
+		
 	}
+	
 }

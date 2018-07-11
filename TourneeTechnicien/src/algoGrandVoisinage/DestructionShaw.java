@@ -9,18 +9,23 @@ import outilDeBase.Activite;
 import outilDeBase.InitialiserModel;
 import outilDeBase.Solution;
 import outilDeBase.Tache;
+import outilGeneral.GestionTableau;
 
 public class DestructionShaw{
 
 	static int nbDestruction;
-	static int probaRandom;
+	static double probaRandom;
 	
-	public static void intialiser(int nbDestructions, int probaRandoms) {
+	public static void intialiser(int nbDestructions, double probaRandoms) {
 		nbDestruction = nbDestructions;
 		probaRandom = probaRandoms;
 	}
 	
 	public static Solution detruit(Solution soluc) {
+		
+		Vector <Tache> taf = GestionTableau.cloneTache(InitialiserModel.tacheAFaire);
+		Vector <Tache> tf = GestionTableau.cloneTache(InitialiserModel.tacheFaite);
+		
 		Vector<Activite> tachesSolution = new Vector<>();
 		int nbTache = 0;
 		int nbTech = 0;		
@@ -45,7 +50,7 @@ public class DestructionShaw{
 		
 		Solution retour = soluc.clone();
 
-		while(taches.size() < nbDestruction && InitialiserModel.tacheFaite.size() > 0) {
+		while(taches.size() < nbDestruction && InitialiserModel.tacheFaite.size() > 0  && !Test.timeout()) {
 			i = r.nextInt(taches.size());
 			tache = taches.get(i);
 			Vector<Activite> solutions = triRequete(tachesSolution, tache, retour);
@@ -55,9 +60,14 @@ public class DestructionShaw{
 			remove(tachesSolution, solutions.get(position));
 		}
 	
-		System.out.println("tache size : " + taches.size() + " nb destruction : " + nbDestruction + " tachefaitesize : " + InitialiserModel.tacheFaite.size() + "\n " + taches.toString()+ "\n " + tachesSolution.toString());
 		Vector<Integer> tachesSelonIndice = tacheSelonPosition(retour, taches);
 		retour = DestructionRandom.suppressionTache(retour, tachesSelonIndice, InitialiserModel.tacheFaite.size());
+		
+		if(Test.timeout()) {
+			InitialiserModel.tacheFaite = taf;
+			InitialiserModel.tacheFaite = tf;
+			retour = soluc;
+		}
 		
 		retour.Calcul_costsol();
 		

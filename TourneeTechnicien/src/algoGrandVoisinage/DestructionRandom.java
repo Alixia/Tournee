@@ -21,9 +21,9 @@ public class DestructionRandom{
 	static boolean depot;
 	
 	static int nbDestruction;
-	static int probaRandom;
+	static double probaRandom;
 	
-	public static void intialiser(int nbDestructions, int probaRandoms) {
+	public static void intialiser(int nbDestructions, double probaRandoms) {
 		nbDestruction = nbDestructions;
 		probaRandom = probaRandoms;
 	}
@@ -68,10 +68,10 @@ public class DestructionRandom{
 		while (!randomList.isEmpty() && !InitialiserModel.tacheFaite.isEmpty() && nbTech < ReadData.tech) {
 			int k = randomList.get(0);
 			randomList.remove(0);
-			while((i!=k || enAttente) && !finNb){
+			while((i<=k || enAttente) && !finNb && nbTech < s.sol.size() && nbTache < s.sol.get(nbTech).lesActivite.size()){
 				//parcours des pauses
 				parcoursPause(s);
-				if(!enAttente) {
+				if(!enAttente && nbTech < s.sol.size() && nbTache < s.sol.get(nbTech).lesActivite.size()) {
 					//construction de la solution
 					Tache tache = s.sol.get(nbTech).lesActivite.get(nbTache).task;
 					boolean ok = construire(solution, nbTech, nbTacheAvecSuppression, tache);
@@ -104,44 +104,50 @@ public class DestructionRandom{
 			}
 			if(!finNb) {
 				parcoursPause(s);
-				Tache tmp = s.sol.get(nbTech).lesActivite.get(nbTache).task;
-				InitialiserModel.add(InitialiserModel.tacheAFaire, tmp);
-				GestionTableau.removeNom(InitialiserModel.tacheFaite, tmp.nom);
-				nbTache++;
-				if(nbTache >= s.sol.get(nbTech).lesActivite.size()-1) {
-					nbTache = 0;
-					nbTacheAvecSuppression = 0;
-					nbTech ++;
-					depot = false;
+				if(nbTech < s.sol.size() && nbTache < s.sol.get(nbTech).lesActivite.size()) {
+					Tache tmp = s.sol.get(nbTech).lesActivite.get(nbTache).task;
+					InitialiserModel.add(InitialiserModel.tacheAFaire, tmp);
+					GestionTableau.removeNom(InitialiserModel.tacheFaite, tmp.nom);
+					nbTache++;
+					if(nbTache >= s.sol.get(nbTech).lesActivite.size()-1) {
+						nbTache = 0;
+						nbTacheAvecSuppression = 0;
+						nbTech ++;
+						depot = false;
+					}
 				}
 				i++;
 			}
 			parcoursPause(s);
 		}
+
 		while(i<fin && nbTech < s.sol.size() && nbTache < s.sol.get(nbTech).lesActivite.size()) {
 			parcoursPause(s);
-			Tache tache = s.sol.get(nbTech).lesActivite.get(nbTache).task;
-			boolean ok = construire(solution, nbTech, nbTacheAvecSuppression, tache);
-			if(!ok) {
-				nbTacheAvecSuppression--;
-				InitialiserModel.add(InitialiserModel.tacheAFaire, tache);
-				GestionTableau.removeNom(InitialiserModel.tacheFaite, tache.nom);
-			}
-			if(solution.sol.get(nbTech).passageDepot>0 && !depot) {
+			if(nbTech < s.sol.size() && nbTache < s.sol.get(nbTech).lesActivite.size()) {
+				Tache tache = s.sol.get(nbTech).lesActivite.get(nbTache).task;
+				boolean ok = construire(solution, nbTech, nbTacheAvecSuppression, tache);
+				if(!ok) {
+					nbTacheAvecSuppression--;
+					InitialiserModel.add(InitialiserModel.tacheAFaire, tache);
+					GestionTableau.removeNom(InitialiserModel.tacheFaite, tache.nom);
+				}
+				if(solution.sol.get(nbTech).passageDepot>0 && !depot) {
+					nbTacheAvecSuppression++;
+					depot = true;
+				}
+				nbTache++;
 				nbTacheAvecSuppression++;
-				depot = true;
+				if(nbTache >= s.sol.get(nbTech).lesActivite.size()-1) {
+					nbTache = 0;
+					nbTech ++;
+					nbTacheAvecSuppression=0;
+					depot = false;
+				}
 			}
-			nbTache++;
-			nbTacheAvecSuppression++;
-			if(nbTache >= s.sol.get(nbTech).lesActivite.size()-1) {
-				nbTache = 0;
-				nbTech ++;
-				nbTacheAvecSuppression=0;
-				depot = false;
-			}
+				
 			i++;
 		}
-		
+
 		return solution;
 	}
 	

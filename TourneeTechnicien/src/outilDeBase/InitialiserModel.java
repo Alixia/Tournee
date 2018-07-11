@@ -19,6 +19,34 @@ public class InitialiserModel {
 		initialiserSimilarite();
 	}
 	
+	public static void mettreAJourSelonSolution(Solution s) {
+		tacheAFaire = new Vector<Tache>();
+		tacheFaite = new Vector<>();
+		Intialisertache();
+		int nbRoutes = 0;
+		while(nbRoutes < s.sol.size()) {
+			int nbActivite = 0;
+			while(nbActivite < s.sol.get(nbRoutes).lesActivite.size()) {
+				Activite a = s.sol.get(nbRoutes).lesActivite.get(nbActivite);
+				if(!a.isPause()) {
+					int remove = findTache(a.task.nom);
+					add(tacheFaite, a.task);
+					tacheAFaire.remove(remove);
+				}
+				nbActivite ++;
+			}
+			nbRoutes ++;
+		}
+	}
+	
+	private static int findTache(int nomTache) {
+		int i=0;
+		while(i<tacheAFaire.size() && nomTache != tacheAFaire.get(i).nom) {
+			i++;
+		}
+		return i;
+	}
+	
 	private static void Intialisertache (){
 		// On remplie tableau des taches
 		Vector<Tache> vecT= new Vector<Tache>();

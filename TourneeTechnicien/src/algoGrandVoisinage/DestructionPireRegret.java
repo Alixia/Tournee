@@ -14,18 +14,21 @@ import outilGeneral.GestionTableau;
 public class DestructionPireRegret{
 	
 	static int nbDestruction;
-	static int probaRandom;
+	static double probaRandom;
 	
-	public static void intialiser(int nbDestructions, int probaRandoms) {
+	public static void intialiser(int nbDestructions, double probaRandoms) {
 		nbDestruction = nbDestructions;
 		probaRandom = probaRandoms;
 	}
 
 	public static Solution detruit(Solution soluc) {
+
+		Vector <Tache> taf = GestionTableau.cloneTache(InitialiserModel.tacheAFaire);
+		Vector <Tache> tf = GestionTableau.cloneTache(InitialiserModel.tacheFaite);
 		
 		Solution retour = soluc.clone();
 
-		while(nbDestruction >0 && InitialiserModel.tacheFaite.size() >0) {
+		while(nbDestruction >0 && InitialiserModel.tacheFaite.size() >0 && !Test.timeout()) {
 			ArrayList<Couple> solutions = triSolution(retour);
 			Random r = new Random();
 			double y = r.nextDouble();
@@ -35,6 +38,12 @@ public class DestructionPireRegret{
 			InitialiserModel.tacheAFaire = solutions.get(position).tacheAFaire;
 			InitialiserModel.tacheFaite = solutions.get(position).tacheFaite;
 			nbDestruction --;
+		}
+		
+		if(Test.timeout()) {
+			InitialiserModel.tacheFaite = taf;
+			InitialiserModel.tacheFaite = tf;
+			retour = soluc;
 		}
 		
 		retour.Calcul_costsol();

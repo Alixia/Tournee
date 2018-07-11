@@ -13,7 +13,7 @@ public class ConstructionRegret {
 
 	public static Solution reconstruit(Solution soluc, int nbRegret) {
 		boolean premierTour = true;
-		while(!InitialiserModel.tacheAFaire.isEmpty() && premierTour){
+		while(!InitialiserModel.tacheAFaire.isEmpty() && premierTour && !Test.timeout()){
 			Vector<coupleTmp> FeasRoute= new Vector<>();
 			int i=0;
 			Tache tacheMeilleur = null;
