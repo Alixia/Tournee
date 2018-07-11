@@ -2,6 +2,8 @@ package outilDeBase;
 
 import java.util.Vector;
 
+import outilGeneral.GestionTableau;
+
 public class InitialiserModel {
 
 	public static Vector <Tache> tacheAFaire = new Vector<Tache>();
@@ -29,9 +31,8 @@ public class InitialiserModel {
 			while(nbActivite < s.sol.get(nbRoutes).lesActivite.size()) {
 				Activite a = s.sol.get(nbRoutes).lesActivite.get(nbActivite);
 				if(!a.isPause()) {
-					int remove = findTache(a.task.nom);
+					GestionTableau.removeNom(tacheAFaire, a.task.nom);
 					add(tacheFaite, a.task);
-					tacheAFaire.remove(remove);
 				}
 				nbActivite ++;
 			}
@@ -49,7 +50,6 @@ public class InitialiserModel {
 	
 	private static void Intialisertache (){
 		// On remplie tableau des taches
-		Vector<Tache> vecT= new Vector<Tache>();
 		for(int i=0; i<ReadData.tache;i++){
 			double [][] tw = new double [ReadData.nbrTw][2];
 			int [] p = new int [ReadData.nbrPiece];				

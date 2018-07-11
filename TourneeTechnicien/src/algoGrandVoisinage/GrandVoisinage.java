@@ -17,7 +17,21 @@ public class GrandVoisinage {
 	Choix destr;
 	double sigma1 = 15;		// gain pour le choix des heuristique
 	double sigma2 = 10;
+	double sigma3 = 5;
 	int nbSegment;
+
+	
+	//critere arret
+	boolean arret;
+	boolean arretSegment;
+	int tourMax = 2;
+	int nbSegmentsArret;
+	int nbTour;
+	
+	
+	//critere d'acceptation
+	double c = 0.2; //vitesse de refroidissement
+	double T; //temperature
 		
 	public GrandVoisinage(Solution s, double facteurDeRegression) {
 		meilleurSolution = s;
@@ -28,6 +42,7 @@ public class GrandVoisinage {
 		destr = new Choix(3); 	// random/shaw/regret (0/1/2)
 		reinitialise();
 		nbSegment = 0;
+		T = 4;
 	}
 	
 	public Solution lancer() {
@@ -35,40 +50,73 @@ public class GrandVoisinage {
 		timeDeb = System.currentTimeMillis();
 		Solution s = meilleurSolution.clone();
 		
-		while(!Test.timeout()) {
+		arret = false;
+		arretSegment = false;
+		nbSegmentsArret = 0;
+		nbTour = 0;
+		
+		while(!Test.timeout() && !arret) {
+			
+			Solution sPrime = s.clone();
 			
 			//lancement des heuristic const/dest selon les poids
-			Couple c = lancerDestruction(s);
+			Couple c = lancerDestruction(sPrime);
 			int numHeuristicDest = c.numHeuristic;
-			s = c.s;
-			c = lancerConstruction(s);
+			sPrime = c.s;
+			c = lancerConstruction(sPrime);
 			int numHeuristicConst = c.numHeuristic;
-			s = c.s;
-									
-			boolean nouvelleSolution = hashP.addP(s.hashCode());
-			if(s.costsol < meilleurSolution.costsol) {
-				meilleurSolution = s.clone();
-				
-				constr.score[numHeuristicConst] += sigma1;
-				
-				destr.score[numHeuristicDest] += sigma1;
-			}else if(nouvelleSolution) {
-				constr.score[numHeuristicConst] += sigma2;
-				
-				destr.score[numHeuristicDest] += sigma2;
+			sPrime = c.s;
+			
+			//critere d'acceptation
+			boolean accepte = accepte(sPrime, s);
+			
+			majDonne(sPrime, s, numHeuristicDest, numHeuristicConst, accepte);
+			
+			if(accepte) {
+				s = sPrime.clone();
+			}
+			
+			//critere d'arret
+			if(!arretSegment){
+				nbSegmentsArret = nbIteration;
+				arretSegment = true;
 			}
 			constr.nb[numHeuristicConst] ++;
 			destr.nb[numHeuristicDest] ++;
 			
 			nbIteration++;
+			if(arretSegment && nbIteration == nbSegmentsArret) {
+				nbTour ++;
+				if(nbTour > tourMax) {
+					arret = true;
+				}
+			}
 			if(nbIteration == 100) {
 				nbSegment ++;
 				calculPoid();
 				reinitialise();
 			}
+			InitialiserModel.mettreAJourSelonSolution(meilleurSolution);
 		}
 		InitialiserModel.mettreAJourSelonSolution(meilleurSolution);
 		return meilleurSolution;
+	}
+
+	private boolean accepte(Solution sPrime, Solution s) {
+		if(sPrime.costsol < meilleurSolution.costsol) {
+			T = T*c;
+			return true;
+		}
+		double valeurProba = 0;
+		valeurProba = Math.exp(-(sPrime.costsol-s.costsol)/T);
+		Random r = new Random();
+		double y = r.nextDouble();
+		if(y<valeurProba) {
+			T = T*c;
+			return true;
+		}
+		T = T*c;
+		return false;
 	}
 
 	public void afficherMeilleurSolution(boolean touteLaSolution) {
@@ -81,6 +129,34 @@ public class GrandVoisinage {
 			System.out.println(meilleurSolution.costsol + "");
 		}
 		
+	}
+	
+	private void majDonne(Solution sPrime, Solution s, int numHeuristicDest, int numHeuristicConst, boolean accepte) {
+		boolean nouvelleSolution = false;
+		nouvelleSolution = hashP.addP(sPrime.hashCode());
+		
+		if(nouvelleSolution) {
+			arretSegment = false;
+			nbTour = 0;
+		}
+		
+		if(sPrime.costsol < meilleurSolution.costsol) {
+			meilleurSolution = sPrime.clone();
+			
+			constr.score[numHeuristicConst] += sigma1;
+			
+			destr.score[numHeuristicDest] += sigma1;
+
+		}else if(nouvelleSolution && accepte) {
+			if(sPrime.costsol < s.costsol) {
+				constr.score[numHeuristicConst] += sigma2;
+				destr.score[numHeuristicDest] += sigma2;
+			}else{
+				constr.score[numHeuristicConst] += sigma3;
+				destr.score[numHeuristicDest] += sigma3;
+			}
+			
+		}
 	}
 	
 	private Couple lancerConstruction(Solution s) {

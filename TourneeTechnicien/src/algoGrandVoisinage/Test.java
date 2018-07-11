@@ -6,7 +6,7 @@ import outilDeBase.*;
 public class Test {
 	
 	public static int nbDestruction = 4;
-	public static double probaRandom = 1;
+	public static double probaRandom = 0.6;
 	
 	public static float tempsMax = 20;
 	public static double r = 1;
@@ -39,18 +39,20 @@ public class Test {
 	}
 
 	public static void main(String[] args){
-		String chemin ="inst1/";
+		String chemin ="40-40-10/inst1/";
 		initialiser(chemin);
 		
 		System.out.println("nbr Tache:"+ReadData.tache+"; nbrTech:"+ReadData.tech+"; nbrDepot:"+ReadData.depot);
 		
+		tempsDeb = System.currentTimeMillis();
 		Solution s = SolutionGreedy.solutionInitiale();
 		GrandVoisinage gv = new GrandVoisinage(s, r);
-		tempsDeb = System.currentTimeMillis();
 		Solution s2 = gv.lancer();
+		float tempsEnCours = ((float)(System.currentTimeMillis()-tempsDeb)/1000f);
+		System.out.println("temps total : " + tempsEnCours + "s");
 		gv.afficherMeilleurSolution(true);
-		InitialiserModel.afficher();
-		System.out.println(gv.nbSegment+"\n" + s.costsol);
+		System.out.println(InitialiserModel.tacheAFaire.size());
+		System.out.println(s2.costsol);
 	}
 	
 }

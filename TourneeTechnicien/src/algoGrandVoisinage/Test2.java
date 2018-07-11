@@ -25,7 +25,7 @@ public class Test2 {
 	}
 
 	public static void main(String[] args){
-		String chemin ="inst1/";
+		String chemin ="40-40-10/inst1/";
 		initialiser(chemin);
 		
 		System.out.println("nbr Tache:"+ReadData.tache+"; nbrTech:"+ReadData.tech+"; nbrDepot:"+ReadData.depot);
@@ -51,7 +51,7 @@ public class Test2 {
 		System.out.println(soluc2.toString());
 		System.out.println("*******************");
 		System.out.println("*******************");
-		InitialiserModel.afficher();
+		//InitialiserModel.afficher();
 		
 	}
 	
