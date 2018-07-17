@@ -24,7 +24,7 @@ public class GrandVoisinage {
 	//critere arret
 	boolean arret;
 	boolean arretSegment;
-	int tourMax = 2;
+	int tourMax = 5;
 	int nbSegmentsArret;
 	int nbTour;
 	
@@ -142,9 +142,7 @@ public class GrandVoisinage {
 		
 		if(sPrime.costsol < meilleurSolution.costsol) {
 			meilleurSolution = sPrime.clone();
-			
 			constr.score[numHeuristicConst] += sigma1;
-			
 			destr.score[numHeuristicDest] += sigma1;
 
 		}else if(nouvelleSolution && accepte) {

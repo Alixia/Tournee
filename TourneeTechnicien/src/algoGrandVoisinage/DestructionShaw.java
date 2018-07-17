@@ -13,15 +13,18 @@ import outilGeneral.GestionTableau;
 
 public class DestructionShaw{
 
-	static int nbDestruction;
+	static int tailleProbleme;
 	static double probaRandom;
 	
-	public static void intialiser(int nbDestructions, double probaRandoms) {
-		nbDestruction = nbDestructions;
+	public static void intialiser(int n, double probaRandoms) {
+		tailleProbleme = n;
 		probaRandom = probaRandoms;
 	}
 	
 	public static Solution detruit(Solution soluc) {
+		
+		Random rbis = new Random();
+		int nbDestruction = rbis.nextInt(tailleProbleme-1)+1;
 		
 		Vector <Tache> taf = GestionTableau.cloneTache(InitialiserModel.tacheAFaire);
 		Vector <Tache> tf = GestionTableau.cloneTache(InitialiserModel.tacheFaite);

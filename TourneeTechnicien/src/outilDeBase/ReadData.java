@@ -16,8 +16,8 @@ public class ReadData {
 	public static int nbrTw;
 	public static int nbrPiece;
 	public static  int dmax=125;
-	public static  double psi=5; // overTime // article 1 et 2 10 
-	public static  double phi=550;  // nombre tache 550
+	public static  double psi=1; // overTime // article 1 et 2 10 
+	public static  double phi=500;  // nombre tache 550
 	public static  double mu=5; // distance // article 1 et 2 5
 	public static int TpsReap=25;	//temps reaprovisionnement
 	public static 	double [][]  distance;

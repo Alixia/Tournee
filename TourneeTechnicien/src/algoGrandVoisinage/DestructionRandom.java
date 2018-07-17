@@ -20,15 +20,18 @@ public class DestructionRandom{
 	static int nbTacheAvecSuppression;
 	static boolean depot;
 	
-	static int nbDestruction;
+	static int tailleProbleme;
 	static double probaRandom;
 	
-	public static void intialiser(int nbDestructions, double probaRandoms) {
-		nbDestruction = nbDestructions;
+	public static void intialiser(int n, double probaRandoms) {
+		tailleProbleme = n;
 		probaRandom = probaRandoms;
 	}
 
 	public static Solution detruit(Solution donnee) {
+		
+		Random rbis = new Random();
+		int nbDestruction = rbis.nextInt(tailleProbleme-1)+1;
 		
 		Solution s = donnee.clone();
 		

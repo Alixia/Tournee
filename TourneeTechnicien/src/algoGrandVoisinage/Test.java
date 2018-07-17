@@ -32,14 +32,14 @@ public class Test {
 	public static void initialiser(String chemin){
 		ReadData.lancerLecture(chemin);
 		InitialiserModel.initialiser();
-		DestructionShaw.intialiser(nbDestruction, probaRandom);
-		DestructionRandom.intialiser(nbDestruction, probaRandom);
-		DestructionPireRegret.intialiser(nbDestruction, probaRandom);
+		DestructionShaw.intialiser(ReadData.tache, probaRandom);
+		DestructionRandom.intialiser(ReadData.tache, probaRandom);
+		DestructionPireRegret.intialiser(ReadData.tache, probaRandom);
 		Similarite.intialiser(phi, xi, psy, omega);
 	}
 
 	public static void main(String[] args){
-		String chemin ="40-40-10/inst1/";
+		String chemin ="40-40-10/inst2/";
 		initialiser(chemin);
 		
 		System.out.println("nbr Tache:"+ReadData.tache+"; nbrTech:"+ReadData.tech+"; nbrDepot:"+ReadData.depot);
