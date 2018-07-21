@@ -180,7 +180,9 @@ public class DestructionRandom{
 	}
 	
 	private static void parcoursPause(Solution s) {
-		while(nbTech < ReadData.tech && nbTache < s.sol.get(nbTech).lesActivite.size()-1 && s.sol.get(nbTech).lesActivite.get(nbTache).isPause()) {
+		while(nbTech < s.sol.size() &&
+				nbTache < s.sol.get(nbTech).lesActivite.size()-1 &&
+				s.sol.get(nbTech).lesActivite.get(nbTache).isPause()) {
 			if(!(s.sol.get(nbTech).lesActivite.get(nbTache).task.nom==-1000)) {
 				nbTache++;
 				nbTacheAvecSuppression++;

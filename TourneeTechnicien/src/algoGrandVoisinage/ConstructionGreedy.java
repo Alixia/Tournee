@@ -31,6 +31,7 @@ public class ConstructionGreedy {
 				soluc = FeasRoute.get(0);
 				i--;
 			}
+			soluc.Calcul_costsol();
 			i++;
 		}
 		

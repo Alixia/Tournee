@@ -6,25 +6,43 @@ import outilGeneral.GestionTableau;
 
 public class InitialiserModel {
 
-	public static Vector <Tache> tacheAFaire = new Vector<Tache>();
+	public static Vector <Tache> tacheAFaire = new Vector<>();
 	public static Vector <Technicien> tech = new Vector<Technicien>();
 	public static Vector <Tache> tacheFaite = new Vector<>();
 	public static Vector <Vector<Integer>> K = new Vector<>();
+	
+	//implementation du greedy2 (prise en compte des compétences des techniciens)
+	public static int[] nombreTechnParTache = new int[ReadData.tache];
 	
 	public static void initialiser(){
 		tacheAFaire = new Vector<Tache>();
 		tech = new Vector<Technicien>();
 		tacheFaite = new Vector<>();
 		K = new Vector<>();
-		Intialisertache();
-		InitialiserTechnician();
+		intialisertache();
+		initialiserTechnician();
 		initialiserSimilarite();
+		initialiserGreedy2();
 	}
 	
+	private static void initialiserGreedy2() {
+
+		for(int tache=0 ; tache<ReadData.tache ; tache++) {
+			int nb = 0;
+			for(int tech=0 ; tech<ReadData.tech ; tech++) {
+				if(ReadData.competence[tech][tache] != 0){
+					nb++;
+				}
+			}
+			nombreTechnParTache[tache] = nb;
+		}
+		
+	}
+
 	public static void mettreAJourSelonSolution(Solution s) {
-		tacheAFaire = new Vector<Tache>();
+		tacheAFaire = new Vector<>();
 		tacheFaite = new Vector<>();
-		Intialisertache();
+		intialisertache();
 		int nbRoutes = 0;
 		while(nbRoutes < s.sol.size()) {
 			int nbActivite = 0;
@@ -40,7 +58,7 @@ public class InitialiserModel {
 		}
 	}
 	
-	private static int findTache(int nomTache) {
+	public static int findTache(int nomTache) {
 		int i=0;
 		while(i<tacheAFaire.size() && nomTache != tacheAFaire.get(i).nom) {
 			i++;
@@ -48,7 +66,7 @@ public class InitialiserModel {
 		return i;
 	}
 	
-	private static void Intialisertache (){
+	public static void intialisertache (){
 		// On remplie tableau des taches
 		for(int i=0; i<ReadData.tache;i++){
 			double [][] tw = new double [ReadData.nbrTw][2];
@@ -65,7 +83,7 @@ public class InitialiserModel {
 		}
 		
 	}
-	private static void InitialiserTechnician(){
+	private static void initialiserTechnician(){
 		// On remplie tableau des techniciens 
 		for (int k=0;k<ReadData.tech; k++){
 			int [] inv = new int [ReadData.nbrPiece];
@@ -78,9 +96,19 @@ public class InitialiserModel {
 		}
 	}
 	
+	//par ordre de priorité
 	public static void add(Vector<Tache> vt, Tache t){
 		int i=0;
 		while(i<vt.size() && vt.get(i).prio > t.prio){
+			i++;
+		}
+		vt.add(i,t);
+	}
+	
+	//par ordre de competence
+	public static void addCompetence(Vector<Tache> vt, Tache t){
+		int i=0;
+		while(i<vt.size() && nombreTechnParTache[vt.get(i).nom] < nombreTechnParTache[t.nom]){
 			i++;
 		}
 		vt.add(i,t);

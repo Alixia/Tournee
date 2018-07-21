@@ -2,6 +2,7 @@ package algoGrandVoisinage;
 
 import java.util.Vector;
 
+import Tests.TestInit;
 import outilDeBase.InitialiserModel;
 import outilDeBase.ReadData;
 import outilDeBase.Route;
@@ -13,7 +14,7 @@ public class ConstructionRegret {
 
 	public static Solution reconstruit(Solution soluc, int nbRegret) {
 		boolean premierTour = true;
-		while(!InitialiserModel.tacheAFaire.isEmpty() && premierTour && !Test.timeout()){
+		while(!InitialiserModel.tacheAFaire.isEmpty() && premierTour && !TestInit.timeout()){
 			Vector<coupleTmp> FeasRoute= new Vector<>();
 			int i=0;
 			Tache tacheMeilleur = null;

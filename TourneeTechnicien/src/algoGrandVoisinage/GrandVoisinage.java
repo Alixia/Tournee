@@ -2,6 +2,7 @@ package algoGrandVoisinage;
 
 import java.util.Random;
 
+import Tests.TestInit;
 import outilDeBase.InitialiserModel;
 import outilDeBase.Solution;
 import outilGeneral.HashagePerso;
@@ -33,13 +34,13 @@ public class GrandVoisinage {
 	double c = 0.2; //vitesse de refroidissement
 	double T; //temperature
 		
-	public GrandVoisinage(Solution s, double facteurDeRegression) {
+	public GrandVoisinage(Solution s, double facteurDeRegression, int nbConstr, int nbDestr) {
 		meilleurSolution = s;
 		hashP = new HashagePerso();
 		hashP.addP(s.hashCode());
 		r = facteurDeRegression;
-		constr = new Choix(4); 	// greedy/regret1/regret2/regret3 (0/1/2/3)
-		destr = new Choix(3); 	// random/shaw/regret (0/1/2)
+		constr = new Choix(nbConstr); 	// greedy/regret1/regret2/regret3/greedy2 (0/1/2/3/4)
+		destr = new Choix(nbDestr); 	// random/shaw/regret (0/1/2)
 		reinitialise();
 		nbSegment = 0;
 		T = 4;
@@ -55,7 +56,7 @@ public class GrandVoisinage {
 		nbSegmentsArret = 0;
 		nbTour = 0;
 		
-		while(!Test.timeout() && !arret) {
+		while(!TestInit.timeout() && !arret) {
 			
 			Solution sPrime = s.clone();
 			
@@ -162,7 +163,7 @@ public class GrandVoisinage {
 		Solution retour = null;
 		int numHeuristic = constr.selectHeuristic();
 		switch (numHeuristic) {
-		case 0:				// greedy
+		case 0:				//greedy
 			retour = ConstructionGreedy.reconstruit(s);
 			break;
 			
@@ -176,6 +177,10 @@ public class GrandVoisinage {
 
 		case 3 : 			//regret3
 			retour = ConstructionRegret.reconstruit(s, 3);
+			break;
+			
+		case 4 : 			//greedy2
+			retour = ConstructionGreedy2.reconstruit(s);
 			break;
 
 		default:

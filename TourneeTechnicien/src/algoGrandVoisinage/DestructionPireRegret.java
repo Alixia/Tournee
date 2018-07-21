@@ -5,6 +5,7 @@ import java.util.PriorityQueue;
 import java.util.Random;
 import java.util.Vector;
 
+import Tests.TestInit;
 import outilDeBase.InitialiserModel;
 import outilDeBase.Solution;
 import outilDeBase.SolutionGreedy;
@@ -24,26 +25,28 @@ public class DestructionPireRegret{
 	public static Solution detruit(Solution soluc) {
 		
 		Random rbis = new Random();
-		int nbDestruction = rbis.nextInt(tailleProbleme-1)+1;
+		int bornemin = Math.min((int)(0.1*tailleProbleme), 30);
+		int bornemax = Math.min((int)(0.4*tailleProbleme), 60);
+		int nbDestruction = rbis.nextInt(bornemax - bornemin)+bornemin;
 
 		Vector <Tache> taf = GestionTableau.cloneTache(InitialiserModel.tacheAFaire);
 		Vector <Tache> tf = GestionTableau.cloneTache(InitialiserModel.tacheFaite);
 		
 		Solution retour = soluc.clone();
 
-		while(nbDestruction >0 && InitialiserModel.tacheFaite.size() >0 && !Test.timeout()) {
+		while(nbDestruction >0 && InitialiserModel.tacheFaite.size() >0 && !TestInit.timeout()) {
 			ArrayList<Couple> solutions = triSolution(retour);
 			Random r = new Random();
 			double y = r.nextDouble();
 			int position =0;
-			position = (int)(Math.pow(y, probaRandom)*(solutions.size())-1);
+			position = (int)(Math.pow(y, probaRandom)*(solutions.size()-1));
 			retour = solutions.get(position).s;
 			InitialiserModel.tacheAFaire = solutions.get(position).tacheAFaire;
 			InitialiserModel.tacheFaite = solutions.get(position).tacheFaite;
 			nbDestruction --;
 		}
 		
-		if(Test.timeout()) {
+		if(TestInit.timeout()) {
 			InitialiserModel.tacheFaite = taf;
 			InitialiserModel.tacheFaite = tf;
 			retour = soluc;

@@ -1,32 +1,16 @@
 package algoGrandVoisinage;
 import java.security.AlgorithmConstraints;
 
+import Tests.TestInit;
 import outilDeBase.*;
 
 public class Test2 {
-	
-	public static int nbDestruction = 4;
-	public static int probaRandom = 0;
-	
-	//sim (shaw)
-	public static double phi = 1;
-	public static double xi = 1;
-	public static double psy = 1;
-	public static double omega = 1;
-	
-	
-	public static void initialiser(String chemin){
-		ReadData.lancerLecture(chemin);
-		InitialiserModel.initialiser();
-		DestructionShaw.intialiser(nbDestruction, probaRandom);
-		DestructionRandom.intialiser(nbDestruction, probaRandom);
-		DestructionPireRegret.intialiser(nbDestruction, probaRandom);
-		Similarite.intialiser(phi, xi, psy, omega);
-	}
 
 	public static void main(String[] args){
 		String chemin ="40-40-10/inst1/";
-		initialiser(chemin);
+		TestInit.initialiser(chemin);
+		
+		
 		
 		System.out.println("nbr Tache:"+ReadData.tache+"; nbrTech:"+ReadData.tech+"; nbrDepot:"+ReadData.depot);
 		

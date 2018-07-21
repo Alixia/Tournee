@@ -5,6 +5,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.Vector;
 
+import Tests.TestInit;
 import outilDeBase.Activite;
 import outilDeBase.InitialiserModel;
 import outilDeBase.Solution;
@@ -24,7 +25,9 @@ public class DestructionShaw{
 	public static Solution detruit(Solution soluc) {
 		
 		Random rbis = new Random();
-		int nbDestruction = rbis.nextInt(tailleProbleme-1)+1;
+		int bornemin = Math.min((int)(0.1*tailleProbleme), 30);
+		int bornemax = Math.min((int)(0.4*tailleProbleme), 60);
+		int nbDestruction = rbis.nextInt(bornemax - bornemin)+bornemin;
 		
 		Vector <Tache> taf = GestionTableau.cloneTache(InitialiserModel.tacheAFaire);
 		Vector <Tache> tf = GestionTableau.cloneTache(InitialiserModel.tacheFaite);
@@ -53,12 +56,12 @@ public class DestructionShaw{
 		
 		Solution retour = soluc.clone();
 
-		while(taches.size() < nbDestruction && InitialiserModel.tacheFaite.size() > 0  && !Test.timeout()) {
+		while(taches.size() < nbDestruction && InitialiserModel.tacheFaite.size() > 0  && !TestInit.timeout() && tachesSolution.size()>0) {
 			i = r.nextInt(taches.size());
 			tache = taches.get(i);
 			Vector<Activite> solutions = triRequete(tachesSolution, tache, retour);
 			double y = r.nextDouble();
-			int position = (int)(Math.pow(y, probaRandom)*(solutions.size())-1);
+			int position = (int)(Math.pow(y, probaRandom)*(solutions.size()-1));
 			add(taches, solutions.get(position));
 			remove(tachesSolution, solutions.get(position));
 		}
@@ -66,7 +69,7 @@ public class DestructionShaw{
 		Vector<Integer> tachesSelonIndice = tacheSelonPosition(retour, taches);
 		retour = DestructionRandom.suppressionTache(retour, tachesSelonIndice, InitialiserModel.tacheFaite.size());
 		
-		if(Test.timeout()) {
+		if(TestInit.timeout()) {
 			InitialiserModel.tacheFaite = taf;
 			InitialiserModel.tacheFaite = tf;
 			retour = soluc;
