@@ -1,8 +1,5 @@
 package outilDeBase;
 
-import java.util.Arrays;
-import java.util.Vector;
-
 import outilGeneral.GestionTableau;
 
 public class Technicien {
