@@ -1,8 +1,6 @@
 package algoGrandVoisinage;
 
-import java.util.HashSet;
 import java.util.Random;
-import java.util.Set;
 import java.util.Vector;
 
 import Tests.TestInit;
