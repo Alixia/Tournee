@@ -187,7 +187,7 @@ public class Heure {
 		int min = this.convertirenMinute ();
 		int min1=x*60;
 		min=min-min1;
-		aux=this.convertirenHeure(min);
+		aux=convertirenHeure(min);
 		return aux;
 		
 	}

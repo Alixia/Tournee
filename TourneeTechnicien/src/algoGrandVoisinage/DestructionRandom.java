@@ -1,10 +1,8 @@
 package algoGrandVoisinage;
 
-import java.util.PriorityQueue;
 import java.util.Random;
 import java.util.Vector;
 
-import outilDeBase.Activite;
 import outilDeBase.InitialiserModel;
 import outilDeBase.ReadData;
 import outilDeBase.Route;

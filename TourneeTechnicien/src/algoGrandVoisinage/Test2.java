@@ -1,5 +1,4 @@
 package algoGrandVoisinage;
-import java.security.AlgorithmConstraints;
 
 import Tests.TestInit;
 import outilDeBase.*;

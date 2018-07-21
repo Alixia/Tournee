@@ -1,5 +1,4 @@
 package algoGrandVoisinage;
-import java.security.AlgorithmConstraints;
 
 import Tests.TestInit;
 import outilDeBase.*;
@@ -23,7 +22,7 @@ public class Test {
 		
 		TestInit.tempsDeb = System.currentTimeMillis();
 		Solution s = SolutionGreedy.solutionInitiale();
-		GrandVoisinage gv = new GrandVoisinage(s, TestInit.r, 4, 3);
+		GrandVoisinage gv = new GrandVoisinage(s, TestInit.r, TestInit.nbConstr, TestInit.nbDestr);
 		Solution s2 = gv.lancer();
 		float tempsEnCours = ((float)(System.currentTimeMillis()-TestInit.tempsDeb)/1000f);
 		System.out.println("temps total : " + tempsEnCours + "s");

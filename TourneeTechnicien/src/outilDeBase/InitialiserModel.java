@@ -140,7 +140,6 @@ public class InitialiserModel {
 	
 	private static void initialiserSimilarite() {
 		//on rempli le tableau K (pour le calcul de la similarité)
-		int[] nbTechParTach = new int[ReadData.tache];
 		for(int i=0; i<ReadData.tache; i++){
 			K.add(new Vector<>());
 		}

@@ -21,8 +21,8 @@ public class TestInit {
 	public static double psy = 1;
 	public static double omega = 1;
 	
-	public static int nbDestr = 3;
-	public static int nbConstr = 4;
+	public static int nbDestr = 3;	// random/shaw/regret (0/1/2)
+	public static int nbConstr = 5;	// greedy/regret1/regret2/regret3/greedy2 (0/1/2/3/4)
 	
 	public static int indice = 0;
 	

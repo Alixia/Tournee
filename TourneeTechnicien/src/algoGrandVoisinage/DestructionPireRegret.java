@@ -1,14 +1,12 @@
 package algoGrandVoisinage;
 
 import java.util.ArrayList;
-import java.util.PriorityQueue;
 import java.util.Random;
 import java.util.Vector;
 
 import Tests.TestInit;
 import outilDeBase.InitialiserModel;
 import outilDeBase.Solution;
-import outilDeBase.SolutionGreedy;
 import outilDeBase.Tache;
 import outilGeneral.GestionTableau;
 
